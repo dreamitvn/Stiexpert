@@ -11,14 +11,26 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     password = serializers.CharField(write_only=True, min_length=8)
     password_confirm = serializers.CharField(write_only=True)
+    full_name = serializers.CharField(required=False, allow_blank=True)
+    organization = serializers.CharField(required=False, allow_blank=True)
 
     class Meta:
         model = User
-        fields = ["email", "username", "password", "password_confirm", "role", "phone"]
+        fields = ["email", "username", "password", "password_confirm", "role", "phone", "full_name", "organization"]
+        extra_kwargs = {
+            "username": {"required": False},
+            "phone": {"required": False, "allow_blank": True},
+        }
 
     def validate(self, attrs):
         if attrs["password"] != attrs.pop("password_confirm"):
             raise serializers.ValidationError({"password_confirm": "Passwords do not match."})
+        # Auto-generate username from email if not provided
+        if not attrs.get("username"):
+            attrs["username"] = attrs["email"].split("@")[0]
+        # Pop extra fields not in User model
+        attrs.pop("full_name", None)
+        attrs.pop("organization", None)
         return attrs
 
     def create(self, validated_data):

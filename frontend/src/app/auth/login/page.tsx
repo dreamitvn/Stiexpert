@@ -21,11 +21,20 @@ export default function LoginPage() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.detail || "Đăng nhập thất bại");
+        setError(data?.error?.message || data?.detail || "Đăng nhập thất bại");
       } else {
-        localStorage.setItem("access", data.access);
-        localStorage.setItem("refresh", data.refresh);
-        localStorage.setItem("user", JSON.stringify(data.user));
+        const tokens = data.data || data;
+        localStorage.setItem("access", tokens.access);
+        localStorage.setItem("refresh", tokens.refresh);
+        // Decode JWT to get user info
+        try {
+          const payload = JSON.parse(atob(tokens.access.split(".")[1]));
+          localStorage.setItem("user", JSON.stringify({
+            id: payload.user_id,
+            email: payload.email,
+            role: payload.role,
+          }));
+        } catch { /* */ }
         router.push("/dashboard");
       }
     } catch {

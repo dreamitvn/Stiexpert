@@ -39,6 +39,7 @@ export default function RegisterPage() {
         body: JSON.stringify({
           email: form.email,
           password: form.password,
+          password_confirm: form.password_confirm,
           role: form.role,
           full_name: form.full_name,
           organization: form.organization,
@@ -46,12 +47,13 @@ export default function RegisterPage() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.detail || data.email?.[0] || "Đăng ký thất bại");
+        const errMsg = data?.error?.message || data?.detail || "Đăng ký thất bại";
+        setError(errMsg);
       } else {
         router.push("/auth/login?registered=true");
       }
     } catch {
-      setError("Lỗi kết nối máy chủ");
+      setError("Lỗi kết nối máy chủ. Vui lòng thử lại.");
     } finally {
       setLoading(false);
     }
