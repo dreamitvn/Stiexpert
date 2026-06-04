@@ -12,6 +12,7 @@ const menuItems = [
   { label: "Kết nối", href: "/dashboard/connections", icon: "🤝" },
   { label: "Tin nhắn", href: "/dashboard/messages", icon: "💬" },
   { label: "Cài đặt", href: "/dashboard/settings", icon: "⚙️" },
+  { label: "Quản trị", href: "/dashboard/admin", icon: "🔧", adminOnly: true },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -65,7 +66,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
 
         <nav className="p-4 space-y-1">
-          {menuItems.map((item) => {
+          {menuItems
+            .filter((item) => !(item as any).adminOnly || user?.role === "admin")
+            .map((item) => {
             const active = pathname === item.href;
             return (
               <Link
