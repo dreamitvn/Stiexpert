@@ -6,11 +6,8 @@ export default function Home() {
       {/* Header */}
       <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">S</span>
-            </div>
-            <span className="text-xl font-bold text-gray-900">STI-Expert</span>
+          <div className="flex items-center">
+            <img src="/logo.svg" alt="STI-Expert" className="h-10 w-auto" />
           </div>
           <nav className="hidden md:flex items-center gap-8">
             <Link href="/experts" className="text-gray-600 hover:text-gray-900 text-sm font-medium">
@@ -171,11 +168,8 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-400 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
-              <span className="text-white font-bold text-xs">S</span>
-            </div>
-            <span className="text-white font-semibold">STI-Expert</span>
+          <div className="flex items-center justify-center mb-4">
+            <img src="/logo.svg" alt="STI-Expert" className="h-8 w-auto brightness-0 invert" />
           </div>
           <p className="text-sm">Hệ điều hành Thị trường Tri thức KHCN Việt Nam</p>
           <p className="text-xs mt-4">© 2026 STI-Expert. All rights reserved.</p>

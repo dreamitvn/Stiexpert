@@ -31,6 +31,8 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "corsheaders",
     "django_filters",
+    "django_celery_beat",
+    "django_celery_results",
     "django_structlog",
     # Local apps
     "apps.authentication",
@@ -41,6 +43,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -158,6 +161,11 @@ CORS_ALLOWED_ORIGINS = os.getenv(
     "CORS_ALLOWED_ORIGINS", "http://localhost:3000"
 ).split(",")
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = ["*"]
+CSRF_TRUSTED_ORIGINS = [
+    "https://v2.stiexpert.com",
+    "http://localhost:3000",
+]
 
 # Sentry
 SENTRY_DSN = os.getenv("SENTRY_DSN", "")

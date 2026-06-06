@@ -3,6 +3,11 @@ from .base import *  # noqa: F401,F403
 
 DEBUG = False
 
+# Static files (WhiteNoise)
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 # Cloudflare handles SSL termination, so disable redirect
 SECURE_SSL_REDIRECT = False
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

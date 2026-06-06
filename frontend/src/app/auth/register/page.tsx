@@ -52,8 +52,10 @@ export default function RegisterPage() {
       } else {
         router.push("/auth/login?registered=true");
       }
-    } catch {
-      setError("Lỗi kết nối máy chủ. Vui lòng thử lại.");
+    } catch (err: any) {
+      console.error("Register fetch error:", err);
+      const msg = err?.message || "Lỗi mạng";
+      setError(`Lỗi kết nối máy chủ: ${msg}. Vui lòng thử lại hoặc kiểm tra console.`);
     } finally {
       setLoading(false);
     }

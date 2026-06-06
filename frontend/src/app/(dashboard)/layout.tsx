@@ -58,10 +58,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       >
         <div className="flex items-center gap-2 h-16 px-6 border-b">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">S</span>
-            </div>
-            <span className="text-lg font-bold text-gray-900">STI-Expert</span>
+            <img src='/logo.svg' alt='STI-Expert' className='h-8 w-auto' />
           </Link>
         </div>
 

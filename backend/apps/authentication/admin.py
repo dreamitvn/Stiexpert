@@ -54,8 +54,8 @@ class UserAdmin(BaseUserAdmin):
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ["user_email", "language_preference", "notification_email", "created_at"]
-    list_filter = ["language_preference", "notification_email"]
+    list_display = ["user_email", "language_preference", "created_at"]
+    list_filter = ["language_preference"]
     search_fields = ["user__email"]
     list_per_page = 25
 
