@@ -4,16 +4,37 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 type Stats = { experts?: number; users?: number };
+type CurrentUser = { email?: string; role?: string };
 
 export default function DashboardPage() {
   const [stats, setStats] = useState<Stats>({ experts: 205, users: 218 });
+  const [user, setUser] = useState<CurrentUser | null>(null);
 
   useEffect(() => {
+    const cachedUser = localStorage.getItem("user");
+    if (cachedUser) {
+      try { setUser(JSON.parse(cachedUser)); } catch {}
+    }
+
+    const token = localStorage.getItem("access");
+    const apiBase = process.env.NEXT_PUBLIC_API_URL || "https://v2.stiexpert.com/api/v1";
+    if (token) {
+      fetch(`${apiBase}/auth/me/`, { headers: { Authorization: `Bearer ${token}` } })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((d) => {
+          const u = d?.data || d;
+          if (u?.role) setUser({ email: u.email, role: u.role });
+        })
+        .catch(() => {});
+    }
+
     fetch("/api/v1/admin/stats/")
       .then((r) => r.json())
       .then((d) => setStats({ experts: d?.users?.experts ?? 205, users: d?.users?.total ?? 218 }))
       .catch(() => {});
   }, []);
+
+  const canAccessAdmin = ["admin", "manager", "verification_staff"].includes(user?.role || "");
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -43,10 +64,12 @@ export default function DashboardPage() {
           <div className="rounded-2xl border bg-white p-5 shadow-sm"><div className="text-sm text-slate-500">Verified</div><div className="mt-2 text-3xl font-bold">0</div></div>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className={`grid gap-6 ${canAccessAdmin ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
           <Link href="/experts" className="rounded-2xl border bg-white p-6 shadow-sm hover:border-blue-300"><div className="text-3xl">🔎</div><h3 className="mt-4 font-semibold">Tìm chuyên gia</h3><p className="mt-2 text-sm text-slate-500">Tra cứu 205 hồ sơ chuyên gia.</p></Link>
           <Link href="/dashboard/profile" className="rounded-2xl border bg-white p-6 shadow-sm hover:border-blue-300"><div className="text-3xl">👤</div><h3 className="mt-4 font-semibold">Hồ sơ của tôi</h3><p className="mt-2 text-sm text-slate-500">Cập nhật năng lực, học vị, tổ chức.</p></Link>
-          <Link href="/dashboard/admin" className="rounded-2xl border bg-white p-6 shadow-sm hover:border-blue-300"><div className="text-3xl">⚙️</div><h3 className="mt-4 font-semibold">Admin console</h3><p className="mt-2 text-sm text-slate-500">Quản trị hệ thống.</p></Link>
+          {canAccessAdmin && (
+            <Link href="/dashboard/admin" className="rounded-2xl border bg-white p-6 shadow-sm hover:border-blue-300"><div className="text-3xl">⚙️</div><h3 className="mt-4 font-semibold">Admin console</h3><p className="mt-2 text-sm text-slate-500">Quản trị hệ thống.</p></Link>
+          )}
         </div>
       </main>
     </div>
