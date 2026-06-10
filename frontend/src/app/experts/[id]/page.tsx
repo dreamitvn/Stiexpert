@@ -75,14 +75,18 @@ export default async function ExpertDetailPage({ params }: { params: Promise<{ i
             <div className="rounded-2xl border bg-white p-6 shadow-sm">
               <div className="flex flex-col items-center text-center">
                 {expert.avatar ? (
-                  <img src={expert.avatar} alt={expert.full_name} className="h-36 w-36 rounded-2xl object-cover border" />
+                  <img src={expert.avatar} alt={expert.full_name} className="h-36 w-36 rounded-full object-cover border-4 border-white shadow-md" />
                 ) : (
-                  <div className="flex h-36 w-36 items-center justify-center rounded-2xl bg-blue-100 text-5xl font-bold text-blue-600">
+                  <div className="flex h-36 w-36 items-center justify-center rounded-full bg-blue-100 text-5xl font-bold text-blue-600">
                     {expert.full_name?.[0] || "E"}
                   </div>
                 )}
 
                 <h1 className="mt-5 text-2xl font-bold text-gray-900">{expert.full_name}</h1>
+                <div className="mt-3 flex flex-wrap justify-center gap-2">
+                  {expert.professional_verified && <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-200">✓ Tích xanh chuyên môn</span>}
+                  {expert.identity_verified && <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700 ring-1 ring-amber-200">✓ Tích vàng danh tính</span>}
+                </div>
                 {expert.title && <p className="mt-1 text-base text-gray-600">{expert.title}</p>}
                 {expert.organization && <p className="mt-1 text-sm text-gray-500">{expert.organization}</p>}
 

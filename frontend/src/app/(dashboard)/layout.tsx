@@ -41,7 +41,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         const cleanUser = { email: u.email, role: u.role };
         localStorage.setItem("user", JSON.stringify(cleanUser));
         setUser(cleanUser);
-        if (pathname.startsWith("/dashboard/admin") && u.role !== "admin") {
+        if (pathname.startsWith("/dashboard/admin") && !["admin","manager","verification_staff"].includes(u.role)) {
           router.replace("/dashboard");
         }
       })
@@ -84,7 +84,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         <nav className="p-4 space-y-1">
           {menuItems
-            .filter((item) => !(item as any).adminOnly || user?.role === "admin")
+            .filter((item) => !(item as any).adminOnly || ["admin","manager","verification_staff"].includes(user?.role || ""))
             .map((item) => {
             const active = pathname === item.href;
             return (

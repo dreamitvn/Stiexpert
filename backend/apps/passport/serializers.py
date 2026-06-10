@@ -115,11 +115,17 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
             "degree", "main_field", "fields", "nationality", "bio", "summary",
             "avatar", "did_uri", "vneid_verified", "google_scholar", "researchgate",
             "facebook", "linkedin", "website", "profile_completeness", "hide_info",
-            "is_public", "privacy_settings", "experiences", "education", "certificates",
+            "is_public", "privacy_settings",
+            "professional_verified", "professional_verification_status",
+            "identity_verified", "identity_verification_status",
+            "experiences", "education", "certificates",
             "awards", "patents", "papers", "projects", "research_results",
             "science_activities", "associations", "created_at", "updated_at",
         ]
-        read_only_fields = ["id", "user", "did_uri", "profile_completeness", "created_at", "updated_at"]
+        read_only_fields = ["id", "user", "did_uri", "profile_completeness",
+            "professional_verified", "professional_verification_status",
+            "identity_verified", "identity_verification_status",
+            "created_at", "updated_at"]
 
     def update(self, instance, validated_data):
         nested_payload = {name: validated_data.pop(name) for name in list(self.NESTED) if name in validated_data}
@@ -182,7 +188,10 @@ class PublicExpertProfileSerializer(serializers.ModelSerializer):
             "organization", "title", "degree", "main_field", "fields", "nationality",
             "bio", "summary", "avatar", "vneid_verified", "did_uri", "orcid",
             "google_scholar", "researchgate", "facebook", "linkedin", "website",
-            "publications_count", "credentials_count", "experiences", "education",
+            "publications_count", "credentials_count",
+            "professional_verified", "professional_verification_status",
+            "identity_verified", "identity_verification_status",
+            "experiences", "education",
             "certificates", "awards", "patents", "papers", "projects", "research_results",
             "science_activities", "associations",
         ]

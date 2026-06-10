@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
+from django.utils import timezone
 
 from .models import ExpertProfile, Publication, Credential, Document
 from .serializers import (
@@ -13,7 +14,7 @@ from .serializers import (
     CredentialSerializer,
     DocumentSerializer,
 )
-from apps.authentication.permissions import IsExpert, IsAdmin
+from apps.authentication.permissions import IsExpert, IsAdmin, IsManagerOrAdmin, IsVerificationStaffOrAdmin
 
 
 class ExpertProfileViewSet(viewsets.ModelViewSet):
@@ -22,7 +23,12 @@ class ExpertProfileViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        if self.action == 'list':
+        user = getattr(self.request, 'user', None)
+        is_staff_user = (
+            user and user.is_authenticated
+            and (getattr(user, 'role', '') in {'admin', 'manager', 'verification_staff'} or user.is_staff)
+        )
+        if self.action == 'list' and not is_staff_user:
             return ExpertProfile.objects.filter(is_public=True)
         return ExpertProfile.objects.all()
 
@@ -31,6 +37,10 @@ class ExpertProfileViewSet(viewsets.ModelViewSet):
             return [AllowAny()]
         if self.action == 'me':
             return [IsAuthenticated()]
+        if self.action in ['approve_professional', 'reject_professional']:
+            return [IsManagerOrAdmin()]
+        if self.action in ['approve_identity', 'reject_identity']:
+            return [IsVerificationStaffOrAdmin()]
         return [IsAuthenticated(), IsExpert()]
 
     def get_serializer_class(self):
@@ -73,6 +83,70 @@ class ExpertProfileViewSet(viewsets.ModelViewSet):
         service = OrcidService()
         publications = service.fetch_publications(orcid_id)
         return Response({'imported': len(publications), 'publications': publications})
+
+    @action(detail=True, methods=['post'], permission_classes=[IsManagerOrAdmin])
+    def approve_professional(self, request, pk=None):
+        """Manager/admin approve professional (green) badge."""
+        profile = self.get_object()
+        profile.professional_verified = True
+        profile.professional_verification_status = "approved"
+        profile.professional_verified_at = timezone.now()
+        profile.professional_verified_by = request.user
+        profile.professional_verification_note = request.data.get("note", "")
+        profile.save(update_fields=[
+            "professional_verified", "professional_verification_status",
+            "professional_verified_at", "professional_verified_by",
+            "professional_verification_note",
+        ])
+        return Response({"status": "approved", "badge": "professional"})
+
+    @action(detail=True, methods=['post'], permission_classes=[IsManagerOrAdmin])
+    def reject_professional(self, request, pk=None):
+        """Manager/admin reject professional badge."""
+        profile = self.get_object()
+        profile.professional_verified = False
+        profile.professional_verification_status = "rejected"
+        profile.professional_verified_at = timezone.now()
+        profile.professional_verified_by = request.user
+        profile.professional_verification_note = request.data.get("note", "")
+        profile.save(update_fields=[
+            "professional_verified", "professional_verification_status",
+            "professional_verified_at", "professional_verified_by",
+            "professional_verification_note",
+        ])
+        return Response({"status": "rejected", "badge": "professional"})
+
+    @action(detail=True, methods=['post'], permission_classes=[IsVerificationStaffOrAdmin])
+    def approve_identity(self, request, pk=None):
+        """Verification staff/admin approve identity (gold) badge."""
+        profile = self.get_object()
+        profile.identity_verified = True
+        profile.identity_verification_status = "approved"
+        profile.identity_verified_at = timezone.now()
+        profile.identity_verified_by = request.user
+        profile.identity_verification_note = request.data.get("note", "")
+        profile.save(update_fields=[
+            "identity_verified", "identity_verification_status",
+            "identity_verified_at", "identity_verified_by",
+            "identity_verification_note",
+        ])
+        return Response({"status": "approved", "badge": "identity"})
+
+    @action(detail=True, methods=['post'], permission_classes=[IsVerificationStaffOrAdmin])
+    def reject_identity(self, request, pk=None):
+        """Verification staff/admin reject identity badge."""
+        profile = self.get_object()
+        profile.identity_verified = False
+        profile.identity_verification_status = "rejected"
+        profile.identity_verified_at = timezone.now()
+        profile.identity_verified_by = request.user
+        profile.identity_verification_note = request.data.get("note", "")
+        profile.save(update_fields=[
+            "identity_verified", "identity_verification_status",
+            "identity_verified_at", "identity_verified_by",
+            "identity_verification_note",
+        ])
+        return Response({"status": "rejected", "badge": "identity"})
 
 
 class PublicationViewSet(viewsets.ModelViewSet):

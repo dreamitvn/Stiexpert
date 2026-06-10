@@ -51,6 +51,45 @@ class ExpertProfile(models.Model):
     summary = models.TextField(blank=True, default="")
     vneid_verified = models.BooleanField(default=False)
 
+    # Verification badges
+    class VerificationStatus(models.TextChoices):
+        NOT_SUBMITTED = "not_submitted", "Not submitted"
+        PENDING = "pending", "Pending"
+        APPROVED = "approved", "Approved"
+        REJECTED = "rejected", "Rejected"
+
+    professional_verified = models.BooleanField(default=False)
+    professional_verification_status = models.CharField(
+        max_length=20,
+        choices=VerificationStatus.choices,
+        default=VerificationStatus.PENDING,
+    )
+    professional_verified_at = models.DateTimeField(null=True, blank=True)
+    professional_verified_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="professional_verifications",
+    )
+    professional_verification_note = models.TextField(blank=True, default="")
+
+    identity_verified = models.BooleanField(default=False)
+    identity_verification_status = models.CharField(
+        max_length=20,
+        choices=VerificationStatus.choices,
+        default=VerificationStatus.NOT_SUBMITTED,
+    )
+    identity_verified_at = models.DateTimeField(null=True, blank=True)
+    identity_verified_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="identity_verifications",
+    )
+    identity_verification_note = models.TextField(blank=True, default="")
+
     # Avatar & verification (media)
     avatar = models.ImageField(upload_to="expert_avatars/", blank=True, null=True)
     id_card_front = models.ImageField(upload_to="id_cards/", blank=True, null=True)

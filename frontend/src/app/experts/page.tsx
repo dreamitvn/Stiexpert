@@ -15,6 +15,8 @@ interface Expert {
   avatar?: string;
   publications_count?: number;
   credentials_count?: number;
+  professional_verified?: boolean;
+  identity_verified?: boolean;
 }
 
 export default function ExpertsPage() {
@@ -95,6 +97,10 @@ export default function ExpertsPage() {
                 )}
                 <div className="flex-1 min-w-0">
                   <div className="font-semibold text-gray-900 line-clamp-2">{expert.full_name}</div>
+                  <div className="mt-1 flex flex-wrap gap-1">
+                    {expert.professional_verified && <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-medium text-emerald-700">✓ Xanh</span>}
+                    {expert.identity_verified && <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-medium text-amber-700">✓ Vàng</span>}
+                  </div>
                   {expert.title && <div className="text-sm text-gray-600 mt-1 line-clamp-2">{expert.title}</div>}
                   {expert.organization && <div className="text-sm text-gray-500 mt-1 line-clamp-1">{expert.organization}</div>}
                   {!!expert.fields?.length && (

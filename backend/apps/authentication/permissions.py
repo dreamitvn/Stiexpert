@@ -44,3 +44,25 @@ class IsAdmin(BasePermission):
             and request.user.is_authenticated
             and (request.user.role == "admin" or request.user.is_staff)
         )
+
+
+class IsManagerOrAdmin(BasePermission):
+    """Allow manager/super-admin users to approve professional trust badges."""
+
+    def has_permission(self, request, view):
+        return (
+            request.user
+            and request.user.is_authenticated
+            and (request.user.role in {"manager", "admin"} or request.user.is_staff)
+        )
+
+
+class IsVerificationStaffOrAdmin(BasePermission):
+    """Allow verification staff/super-admin users to approve identity badges."""
+
+    def has_permission(self, request, view):
+        return (
+            request.user
+            and request.user.is_authenticated
+            and (request.user.role in {"verification_staff", "admin"} or request.user.is_staff)
+        )

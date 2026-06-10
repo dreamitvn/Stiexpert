@@ -13,6 +13,8 @@ class User(AbstractUser):
         BUSINESS = "business", "Business"
         ORGANIZATION = "organization", "Organization"
         ADMIN = "admin", "Admin"
+        MANAGER = "manager", "Manager"
+        VERIFICATION_STAFF = "verification_staff", "Verification Staff"
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)

@@ -27,6 +27,7 @@ export default function AdminDashboard() {
   ];
 
   const modules = [
+    { title: "Duyệt hồ sơ", href: "/dashboard/admin/reviews", desc: "Cấp tích xanh/tích vàng cho chuyên gia", icon: "✅" },
     { title: "Expert Profiles", href: "/admin/passport/expertprofile/", desc: "Quản lý 205 hồ sơ chuyên gia", icon: "👤" },
     { title: "Users & Auth", href: "/admin/authentication/user/", desc: "Tài khoản, vai trò, JWT", icon: "🔐" },
     { title: "Matching", href: "/admin/matching/", desc: "AI search, embeddings, scoring", icon: "🧠" },
