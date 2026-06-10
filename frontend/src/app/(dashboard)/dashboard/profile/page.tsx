@@ -145,6 +145,8 @@ export default function ProfilePage() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string>("");
 
   const set = (key: keyof ProfileForm, value: any) => setForm((p) => ({ ...p, [key]: value }));
   const setRows = (key: keyof ProfileForm) => (rows: AnyRow[]) => set(key, rows);
@@ -154,7 +156,11 @@ export default function ProfilePage() {
     if (!token) { setError("Bạn cần đăng nhập."); setLoading(false); return; }
     fetch(`${apiBase}/passport/experts/me/`, { headers: { Authorization: `Bearer ${token}`, Accept: "application/json" } })
       .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
-      .then((data) => setForm(normalize(data)))
+      .then((data) => {
+        const normalized = normalize(data);
+        setForm(normalized);
+        setAvatarPreview(normalized.avatar || "");
+      })
       .catch((e) => setError(`Không tải được hồ sơ: ${e?.message || "unknown"}`))
       .finally(() => setLoading(false));
   }, [apiBase]);
@@ -164,12 +170,28 @@ export default function ProfilePage() {
     if (!token) return setError("Bạn cần đăng nhập.");
     setSaving(true); setMessage(""); setError("");
     try {
-      const payload = { ...form, dob: form.dob || null, fields: form.fields.filter((x) => x.name) };
+      if (avatarFile) {
+        const fd = new FormData();
+        fd.append("avatar", avatarFile);
+        const avatarRes = await fetch(`${apiBase}/passport/experts/me/`, {
+          method: "PATCH",
+          headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+          body: fd,
+        });
+        const avatarData = await avatarRes.json().catch(() => ({}));
+        if (!avatarRes.ok) throw new Error(avatarData?.avatar?.[0] || avatarData?.detail || `Upload avatar HTTP ${avatarRes.status}`);
+        setAvatarFile(null);
+        setAvatarPreview(avatarData.avatar || "");
+      }
+
+      const payload = { ...form, avatar: undefined, dob: form.dob || null, fields: form.fields.filter((x: AnyRow) => x.name) };
       const res = await fetch(`${apiBase}/passport/experts/me/`, { method: "PATCH", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(payload) });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data?.detail || data?.error?.message || `HTTP ${res.status}`);
-      setForm(normalize(data));
-      setMessage("✓ Đã lưu form 22 mục + nested rows.");
+      const normalized = normalize(data);
+      setForm(normalized);
+      setAvatarPreview(normalized.avatar || avatarPreview);
+      setMessage("✓ Đã lưu form 22 mục + ảnh đại diện.");
     } catch (e: any) {
       setError(`Lỗi lưu: ${e?.message || "unknown"}`);
     } finally { setSaving(false); }
@@ -188,7 +210,7 @@ export default function ProfilePage() {
 
     <Section no={1} title="Họ và tên"><TextInput value={form.full_name} onChange={(v) => set("full_name", v)} /></Section>
     <Section no={2} title="Chức danh / học vị"><div className="grid gap-3 md:grid-cols-2"><TextInput value={form.title} onChange={(v) => set("title", v)} placeholder="Thạc sĩ / Tiến sĩ / Chuyên gia" /><TextInput value={form.degree} onChange={(v) => set("degree", v)} placeholder="Học vị cao nhất" /></div></Section>
-    <Section no={3} title="Ảnh đại diện"><div className="flex items-center gap-4"><div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-blue-100 text-2xl font-bold text-blue-700">{form.avatar ? <img src={form.avatar} alt="avatar" className="h-full w-full object-cover" /> : (form.full_name?.[0] || "?")}</div><p className="text-sm text-gray-500">Upload file sẽ bổ sung sau; hiện giữ avatar từ API.</p></div></Section>
+    <Section no={3} title="Ảnh đại diện"><div className="flex flex-col gap-4 md:flex-row md:items-center"><div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-blue-100 text-2xl font-bold text-blue-700">{avatarPreview ? <img src={avatarPreview} alt="avatar" className="h-full w-full object-cover" /> : (form.full_name?.[0] || "?")}</div><div className="space-y-2"><input type="file" accept="image/*" className="block text-sm text-gray-700" onChange={(e) => { const file = e.target.files?.[0]; if (!file) return; setAvatarFile(file); setAvatarPreview(URL.createObjectURL(file)); }} /><p className="text-sm text-gray-500">Chọn ảnh rồi bấm “Lưu thay đổi”. Hỗ trợ JPG/PNG/WebP.</p>{avatarFile && <p className="text-sm font-medium text-blue-700">Đã chọn: {avatarFile.name}</p>}</div></div></Section>
     <Section no={4} title="Giới thiệu ngắn"><TextArea value={form.summary} onChange={(v) => set("summary", v)} /></Section>
     <Section no={5} title="Số CMND/CCCD"><TextInput value={form.identification_number} onChange={(v) => set("identification_number", v)} /></Section>
     <Section no={6} title="Địa chỉ"><TextInput value={form.address} onChange={(v) => set("address", v)} /></Section>

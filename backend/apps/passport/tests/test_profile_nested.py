@@ -1,5 +1,9 @@
-from django.test import TestCase
+from io import BytesIO
+
 from django.contrib.auth import get_user_model
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import TestCase
+from PIL import Image
 from rest_framework.test import APIClient
 
 
@@ -50,3 +54,30 @@ class ExpertProfileNestedUpdateTests(TestCase):
         self.assertEqual(res.status_code, 200, res.content)
         self.assertEqual(len(res.json()["certificates"]), 1)
         self.assertEqual(res.json()["certificates"][0]["name"], "AWS")
+
+
+class ExpertProfileAvatarUploadTests(TestCase):
+    def test_me_patch_accepts_avatar_upload(self):
+        user = get_user_model().objects.create_user(
+            email="avatar@example.com",
+            username="avatar",
+            password="TestPass123!",
+            role="expert",
+        )
+        client = APIClient()
+        client.force_authenticate(user=user)
+
+        image = Image.new("RGB", (8, 8), color="red")
+        buf = BytesIO()
+        image.save(buf, format="PNG")
+        buf.seek(0)
+        avatar = SimpleUploadedFile("avatar.png", buf.read(), content_type="image/png")
+
+        res = client.patch(
+            "/api/v1/passport/experts/me/",
+            {"full_name": "Avatar User", "avatar": avatar},
+            format="multipart",
+            HTTP_HOST="v2.stiexpert.com",
+        )
+        self.assertEqual(res.status_code, 200, res.content)
+        self.assertTrue(res.json()["avatar"])
