@@ -5,7 +5,8 @@ import { usePathname, useRouter } from "next/navigation";
 
 const menuItems = [
   { label: "Tổng quan", href: "/dashboard", icon: "📊" },
-  { label: "Hồ sơ", href: "/dashboard/profile", icon: "👤" },
+  { label: "Hộ chiếu tri thức", href: "/dashboard/profile", icon: "🪪" },
+  { label: "Chỉnh sửa hồ sơ", href: "/dashboard/edit-profile", icon: "✏️" },
   { label: "Ấn phẩm", href: "/dashboard/documents", icon: "📄" },
   { label: "Tìm chuyên gia", href: "/dashboard/search", icon: "🔍" },
   { label: "Yêu cầu", href: "/dashboard/requests", icon: "📋" },

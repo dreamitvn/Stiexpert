@@ -64,9 +64,10 @@ export default function DashboardPage() {
           <div className="rounded-2xl border bg-white p-5 shadow-sm"><div className="text-sm text-slate-500">Verified</div><div className="mt-2 text-3xl font-bold">0</div></div>
         </div>
 
-        <div className={`grid gap-6 ${canAccessAdmin ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
+        <div className={`grid gap-6 ${canAccessAdmin ? "md:grid-cols-4" : "md:grid-cols-3"}`}>
           <Link href="/experts" className="rounded-2xl border bg-white p-6 shadow-sm hover:border-blue-300"><div className="text-3xl">🔎</div><h3 className="mt-4 font-semibold">Tìm chuyên gia</h3><p className="mt-2 text-sm text-slate-500">Tra cứu 205 hồ sơ chuyên gia.</p></Link>
-          <Link href="/dashboard/profile" className="rounded-2xl border bg-white p-6 shadow-sm hover:border-blue-300"><div className="text-3xl">👤</div><h3 className="mt-4 font-semibold">Hồ sơ của tôi</h3><p className="mt-2 text-sm text-slate-500">Cập nhật năng lực, học vị, tổ chức.</p></Link>
+          <Link href="/dashboard/profile" className="rounded-2xl border bg-white p-6 shadow-sm hover:border-blue-300"><div className="text-3xl">🪪</div><h3 className="mt-4 font-semibold">Hộ chiếu tri thức</h3><p className="mt-2 text-sm text-slate-500">Xem toàn bộ thông tin hồ sơ.</p></Link>
+          <Link href="/dashboard/edit-profile" className="rounded-2xl border bg-white p-6 shadow-sm hover:border-blue-300"><div className="text-3xl">✏️</div><h3 className="mt-4 font-semibold">Chỉnh sửa hồ sơ</h3><p className="mt-2 text-sm text-slate-500">Cập nhật năng lực, học vị, tổ chức.</p></Link>
           {canAccessAdmin && (
             <Link href="/dashboard/admin" className="rounded-2xl border bg-white p-6 shadow-sm hover:border-blue-300"><div className="text-3xl">⚙️</div><h3 className="mt-4 font-semibold">Admin console</h3><p className="mt-2 text-sm text-slate-500">Quản trị hệ thống.</p></Link>
           )}
