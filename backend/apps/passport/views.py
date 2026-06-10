@@ -3,6 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 
 from .models import ExpertProfile, Publication, Credential, Document
 from .serializers import (
@@ -36,6 +37,15 @@ class ExpertProfileViewSet(viewsets.ModelViewSet):
         if self.action in ['list', 'retrieve', 'public']:
             return ExpertProfilePublicSerializer
         return ExpertProfileSerializer
+
+    def get_object(self):
+        if self.action == 'retrieve':
+            lookup = self.kwargs.get(self.lookup_url_kwarg or self.lookup_field)
+            if lookup and len(lookup) > 8 and '-' in lookup:
+                short_id = lookup.rsplit('-', 1)[-1]
+                if len(short_id) == 8:
+                    return get_object_or_404(self.get_queryset(), id__startswith=short_id)
+        return super().get_object()
 
     @action(detail=False, methods=['get', 'put', 'patch'])
     def me(self, request):

@@ -140,6 +140,7 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
 class PublicExpertProfileSerializer(serializers.ModelSerializer):
     """Serializer for public expert profile view with nested passport sections."""
 
+    slug = serializers.SerializerMethodField(read_only=True)
     publications_count = serializers.IntegerField(source="publications.count", read_only=True)
     credentials_count = serializers.IntegerField(source="credentials.count", read_only=True)
     experiences = WorkExperienceSerializer(many=True, read_only=True)
@@ -153,10 +154,31 @@ class PublicExpertProfileSerializer(serializers.ModelSerializer):
     science_activities = ScienceActivitySerializer(many=True, read_only=True)
     associations = ProfessionalAssociationSerializer(many=True, read_only=True)
 
+    def _mask(self, value):
+        return "" if self.instance and getattr(self.instance, "hide_info", False) and value else value
+
+    def get_slug(self, obj):
+        import re
+        import unicodedata
+
+        name = (obj.full_name or "expert").replace("Đ", "D").replace("đ", "d")
+        normalized = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode("ascii")
+        base = re.sub(r"[^a-z0-9]+", "-", normalized.strip().lower()).strip("-") or "expert"
+        return f"{base}-{str(obj.id)[:8]}"
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        if instance.hide_info:
+            for key in ["email", "phone", "dob", "gender", "address", "organization", "degree", "main_field", "nationality", "bio", "summary", "orcid", "google_scholar", "researchgate", "facebook", "linkedin", "website"]:
+                if key in data:
+                    data[key] = ""
+            data.pop("identification_number", None)
+        return data
+
     class Meta:
         model = ExpertProfile
         fields = [
-            "id", "sti_id", "full_name", "email", "phone", "dob", "gender", "address",
+            "id", "slug", "sti_id", "full_name", "email", "phone", "dob", "gender", "address", "hide_info",
             "organization", "title", "degree", "main_field", "fields", "nationality",
             "bio", "summary", "avatar", "vneid_verified", "did_uri", "orcid",
             "google_scholar", "researchgate", "facebook", "linkedin", "website",

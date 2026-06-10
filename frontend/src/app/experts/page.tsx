@@ -5,6 +5,7 @@ import Link from "next/link";
 
 interface Expert {
   id: string;
+  slug?: string;
   full_name: string;
   organization?: string;
   title?: string;
@@ -79,7 +80,7 @@ export default function ExpertsPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {filtered.map((expert) => (
-            <Link key={expert.id} href={`/experts/${expert.id}`} className="block bg-white rounded-2xl border p-6 hover:shadow-lg transition">
+            <Link key={expert.id} href={`/experts/${expert.slug || expert.id}`} className="block bg-white rounded-2xl border p-6 hover:shadow-lg transition">
               <div className="flex items-start gap-4">
                 {expert.avatar ? (
                   <img
