@@ -1,13 +1,87 @@
 from django.contrib import admin
-from .models import ExpertProfile, Publication, Credential, Document
+from .models import (
+    ExpertProfile,
+    Publication,
+    Credential,
+    Document,
+    WorkExperience,
+    Education,
+    Certificate,
+    Award,
+    Patent,
+    Paper,
+    Project,
+    ResearchResult,
+    ScienceActivity,
+    ProfessionalAssociation,
+)
+
+
+class RelatedInlineMixin(admin.TabularInline):
+    extra = 0
+
+
+class WorkExperienceInline(RelatedInlineMixin):
+    model = WorkExperience
+
+
+class EducationInline(RelatedInlineMixin):
+    model = Education
+
+
+class CertificateInline(RelatedInlineMixin):
+    model = Certificate
+
+
+class AwardInline(RelatedInlineMixin):
+    model = Award
+
+
+class PatentInline(RelatedInlineMixin):
+    model = Patent
+
+
+class PaperInline(RelatedInlineMixin):
+    model = Paper
+
+
+class ProjectInline(RelatedInlineMixin):
+    model = Project
+
+
+class ResearchResultInline(RelatedInlineMixin):
+    model = ResearchResult
+
+
+class ScienceActivityInline(RelatedInlineMixin):
+    model = ScienceActivity
+
+
+class ProfessionalAssociationInline(RelatedInlineMixin):
+    model = ProfessionalAssociation
 
 
 @admin.register(ExpertProfile)
 class ExpertProfileAdmin(admin.ModelAdmin):
-    list_display = ['full_name', 'organization', 'degree', 'profile_completeness', 'is_public', 'created_at']
-    list_filter = ['degree', 'is_public', 'created_at']
-    search_fields = ['full_name', 'organization', 'orcid']
+    list_display = [
+        'full_name', 'sti_id', 'organization', 'degree', 'vneid_verified',
+        'profile_completeness', 'is_public', 'created_at'
+    ]
+    list_filter = ['degree', 'vneid_verified', 'is_public', 'created_at']
+    search_fields = ['full_name', 'organization', 'orcid', 'sti_id', 'email', 'phone']
     readonly_fields = ['profile_completeness', 'did_uri']
+    inlines = [
+        WorkExperienceInline,
+        EducationInline,
+        CertificateInline,
+        AwardInline,
+        PatentInline,
+        PaperInline,
+        ProjectInline,
+        ResearchResultInline,
+        ScienceActivityInline,
+        ProfessionalAssociationInline,
+    ]
 
 
 @admin.register(Publication)

@@ -28,10 +28,12 @@ class ExpertProfileViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action in ['list', 'retrieve', 'public']:
             return [AllowAny()]
+        if self.action == 'me':
+            return [IsAuthenticated()]
         return [IsAuthenticated(), IsExpert()]
 
     def get_serializer_class(self):
-        if self.action in ['list', 'retrieve'] and not self.request.user.is_authenticated:
+        if self.action in ['list', 'retrieve', 'public']:
             return ExpertProfilePublicSerializer
         return ExpertProfileSerializer
 

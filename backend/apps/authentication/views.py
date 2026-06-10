@@ -6,6 +6,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+from rest_framework_simplejwt.tokens import RefreshToken
+
 from .serializers import RegisterSerializer, LoginSerializer, UserSerializer
 
 User = get_user_model()
@@ -28,12 +30,23 @@ class AuthViewSet(viewsets.GenericViewSet):
 
     @action(detail=False, methods=["post"], serializer_class=RegisterSerializer)
     def register(self, request):
-        """Register a new user account."""
+        """Register a new user account and return JWT tokens for auto-login."""
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
+        refresh = RefreshToken.for_user(user)
+        access = refresh.access_token
+        access["role"] = user.role
+        access["email"] = user.email
         return Response(
-            {"success": True, "data": UserSerializer(user).data},
+            {
+                "success": True,
+                "data": {
+                    "user": UserSerializer(user).data,
+                    "access": str(access),
+                    "refresh": str(refresh),
+                },
+            },
             status=status.HTTP_201_CREATED,
         )
 

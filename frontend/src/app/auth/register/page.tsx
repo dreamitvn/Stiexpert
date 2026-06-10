@@ -50,7 +50,20 @@ export default function RegisterPage() {
         const errMsg = data?.error?.message || data?.detail || "Đăng ký thất bại";
         setError(errMsg);
       } else {
-        router.push("/auth/login?registered=true");
+        const tokens = data.data || data;
+        if (tokens.access && tokens.refresh) {
+          localStorage.setItem("access", tokens.access);
+          localStorage.setItem("refresh", tokens.refresh);
+          const user = tokens.user || {};
+          localStorage.setItem("user", JSON.stringify({
+            id: user.id,
+            email: user.email || form.email,
+            role: user.role || form.role,
+          }));
+          router.push("/dashboard/profile");
+        } else {
+          router.push("/auth/login?registered=true");
+        }
       }
     } catch (err: any) {
       console.error("Register fetch error:", err);

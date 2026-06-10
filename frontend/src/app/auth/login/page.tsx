@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -14,19 +15,26 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login/`, {
+      const apiBase = process.env.NEXT_PUBLIC_API_URL || "https://v2.stiexpert.com/api/v1";
+      const res = await fetch(`${apiBase}/auth/login/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      const data = await res.json();
+
+      let data: any = {};
+      try {
+        data = await res.json();
+      } catch (_) {}
+
       if (!res.ok) {
-        setError(data?.error?.message || data?.detail || "Đăng nhập thất bại");
+        const errMsg = data?.error?.message || data?.detail || `Đăng nhập thất bại (mã ${res.status})`;
+        setError(errMsg);
+        console.error("Login error response:", data);
       } else {
         const tokens = data.data || data;
         localStorage.setItem("access", tokens.access);
         localStorage.setItem("refresh", tokens.refresh);
-        // Decode JWT to get user info
         try {
           const payload = JSON.parse(atob(tokens.access.split(".")[1]));
           localStorage.setItem("user", JSON.stringify({
@@ -37,8 +45,10 @@ export default function LoginPage() {
         } catch { /* */ }
         router.push("/dashboard");
       }
-    } catch {
-      setError("Lỗi kết nối máy chủ");
+    } catch (err: any) {
+      console.error("Login fetch error (full):", err);
+      const msg = err?.message || "Lỗi mạng / không kết nối được server";
+      setError(`Lỗi máy chủ: ${msg}. Vui lòng thử lại hoặc kiểm tra console (F12).`);
     } finally {
       setLoading(false);
     }

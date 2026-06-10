@@ -3,40 +3,6 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="min-h-screen">
-      {/* Header */}
-      <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center">
-            <img src="/logo.svg" alt="STI-Expert" className="h-10 w-auto" />
-          </div>
-          <nav className="hidden md:flex items-center gap-8">
-            <Link href="/experts" className="text-gray-600 hover:text-gray-900 text-sm font-medium">
-              Chuyên gia
-            </Link>
-            <Link href="#features" className="text-gray-600 hover:text-gray-900 text-sm font-medium">
-              Tính năng
-            </Link>
-            <Link href="#about" className="text-gray-600 hover:text-gray-900 text-sm font-medium">
-              Giới thiệu
-            </Link>
-          </nav>
-          <div className="flex items-center gap-3">
-            <Link
-              href="/auth/login"
-              className="text-sm font-medium text-gray-700 hover:text-gray-900 px-4 py-2"
-            >
-              Đăng nhập
-            </Link>
-            <Link
-              href="/auth/register"
-              className="text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors"
-            >
-              Đăng ký
-            </Link>
-          </div>
-        </div>
-      </header>
-
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-b from-blue-50 to-white pt-20 pb-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -45,8 +11,7 @@ export default function Home() {
             Nền tảng KHCN đầu tiên tại Việt Nam
           </div>
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
-            Hệ điều hành{" "}
-            <span className="text-blue-600">Thị trường Tri thức</span>
+            Hệ điều hành <span className="text-blue-600">Thị trường Tri thức</span>
             <br />
             KHCN Việt Nam
           </h1>
@@ -81,7 +46,6 @@ export default function Home() {
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Trust */}
             <div className="p-8 rounded-2xl border border-gray-100 hover:shadow-xl transition-shadow bg-white">
               <div className="w-14 h-14 bg-emerald-100 rounded-xl flex items-center justify-center mb-6">
                 <svg className="w-7 h-7 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -100,7 +64,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Intelligence */}
             <div className="p-8 rounded-2xl border border-gray-100 hover:shadow-xl transition-shadow bg-white">
               <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
                 <svg className="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -119,7 +82,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Marketplace */}
             <div className="p-8 rounded-2xl border border-gray-100 hover:shadow-xl transition-shadow bg-white">
               <div className="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
                 <svg className="w-7 h-7 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -141,7 +103,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stats */}
       <section className="py-16 bg-blue-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
@@ -164,17 +125,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex items-center justify-center mb-4">
-            <img src="/logo.svg" alt="STI-Expert" className="h-8 w-auto brightness-0 invert" />
-          </div>
-          <p className="text-sm">Hệ điều hành Thị trường Tri thức KHCN Việt Nam</p>
-          <p className="text-xs mt-4">© 2026 STI-Expert. All rights reserved.</p>
-        </div>
-      </footer>
     </div>
   );
 }

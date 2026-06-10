@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { SiteChrome } from "@/components/site-chrome";
 
 export const metadata: Metadata = {
   title: "STI-Expert | Hệ điều hành Thị trường Tri thức KHCN",
@@ -10,7 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="vi" suppressHydrationWarning>
       <body className="min-h-screen bg-background font-sans antialiased">
-        {children}
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );

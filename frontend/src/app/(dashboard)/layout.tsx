@@ -23,15 +23,35 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   useEffect(() => {
     const token = localStorage.getItem("access");
-    const userData = localStorage.getItem("user");
     if (!token) {
       router.push("/auth/login");
       return;
     }
-    if (userData) {
-      try { setUser(JSON.parse(userData)); } catch { /* */ }
-    }
-  }, [router]);
+
+    const apiBase = process.env.NEXT_PUBLIC_API_URL || "https://v2.stiexpert.com/api/v1";
+    fetch(`${apiBase}/auth/me/`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((r) => {
+        if (!r.ok) throw new Error("Unauthorized");
+        return r.json();
+      })
+      .then((data) => {
+        const u = data.data || data;
+        const cleanUser = { email: u.email, role: u.role };
+        localStorage.setItem("user", JSON.stringify(cleanUser));
+        setUser(cleanUser);
+        if (pathname.startsWith("/dashboard/admin") && u.role !== "admin") {
+          router.replace("/dashboard");
+        }
+      })
+      .catch(() => {
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
+        localStorage.removeItem("user");
+        router.push("/auth/login");
+      });
+  }, [router, pathname]);
 
   const handleLogout = () => {
     localStorage.removeItem("access");

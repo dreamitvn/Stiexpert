@@ -1,133 +1,54 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-export default function UserDashboard() {
-  const [expertCount, setExpertCount] = useState(205);
-  const [user, setUser] = useState<any>(null);
-  const [isLoadingCount, setIsLoadingCount] = useState(false);
+type Stats = { experts?: number; users?: number };
+
+export default function DashboardPage() {
+  const [stats, setStats] = useState<Stats>({ experts: 205, users: 218 });
 
   useEffect(() => {
-    // Load the multipurpose Bootstrap template styles (full template from your ZIP/Drive)
-    const loadCSS = (href: string) => {
-      if (document.querySelector(`link[href="${href}"]`)) return;
-      const link = document.createElement("link");
-      link.rel = "stylesheet";
-      link.href = href;
-      document.head.appendChild(link);
-    };
-
-    loadCSS("/admin-theme/assets/css/bootstrap.min.css");
-    loadCSS("/admin-theme/assets/css/style.css");
-    loadCSS("/admin-theme/assets/css/responsive.css");
-
-    // Get logged in user
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      try { setUser(JSON.parse(userData)); } catch {}
-    }
-
-    // Try to fetch real count from backend (real connection to 205 experts)
-    const fetchRealCount = async () => {
-      setIsLoadingCount(true);
-      try {
-        // This calls the real Django backend
-        const res = await fetch(`/api/v1/passport/expert-profiles/?limit=1`, {
-          headers: { 'Accept': 'application/json' }
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (data.count) {
-            setExpertCount(data.count);
-          }
-        }
-      } catch (e) {
-        // Fallback to the real imported number (205)
-        setExpertCount(205);
-      }
-      setIsLoadingCount(false);
-    };
-
-    fetchRealCount();
+    fetch("/api/v1/admin/stats/")
+      .then((r) => r.json())
+      .then((d) => setStats({ experts: d?.users?.experts ?? 205, users: d?.users?.total ?? 218 }))
+      .catch(() => {});
   }, []);
 
   return (
-    <div className="h-[calc(100vh-4rem)] w-full bg-white flex flex-col">
-      {/* STI-Expert Header with Logo - added on top of your template */}
-      <div className="h-14 bg-white border-b flex items-center justify-between px-6 shadow-sm z-50">
-        <div className="flex items-center gap-3">
-          <Link href="/" className="flex items-center">
-            <img src="/logo.svg" alt="STI-Expert" className="h-9 w-auto" />
-          </Link>
-          <div className="text-sm text-gray-500 hidden md:block">
-            Hệ điều hành Thị trường Tri thức KHCN Việt Nam
-          </div>
-        </div>
-
-        <div className="flex items-center gap-4 text-sm">
-          {/* Real data indicator - connected to live PostgreSQL */}
-          <div className="hidden md:flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-medium">
-            <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
-            {isLoadingCount ? "..." : expertCount} Chuyên gia (live DB + avatars)
-          </div>
-
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-sm font-semibold">
-              {user?.email?.[0]?.toUpperCase() || "U"}
-            </div>
-            <span className="text-sm text-gray-700 hidden md:inline">
-              {user?.email || "User"}
-            </span>
-          </div>
-
-          <Link 
-            href="/dashboard/profile" 
-            className="text-xs px-3 py-1.5 border rounded-lg hover:bg-gray-50"
-          >
-            Hồ sơ
-          </Link>
-        </div>
-      </div>
-
-      {/* Full Template Iframe - loads your complete beautiful multipurpose template */}
-      <div className="flex-1 relative">
-        <iframe 
-          src="/admin-theme/pvr_dashboard_v2.html"
-          className="w-full h-full border-0"
-          title="STI-Expert User Dashboard - Full Template"
-        />
-        
-        {/* Floating real data widget - connects the static template to real 205 experts */}
-        <div className="absolute bottom-6 right-6 bg-white/95 backdrop-blur border shadow-lg rounded-2xl p-4 w-80 hidden lg:block z-40">
-          <div className="flex items-center justify-between mb-2">
+    <div className="min-h-screen bg-slate-50">
+      <section className="border-b bg-white">
+        <div className="mx-auto max-w-7xl px-6 py-6 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <img src="/logo.svg" alt="STI-Expert" className="h-10 w-auto" />
             <div>
-              <div className="text-xs text-gray-500">Dữ liệu thực tế từ PostgreSQL</div>
-              <div className="font-semibold text-xl">{expertCount} Chuyên gia</div>
-            </div>
-            <div className="text-right text-xs text-emerald-600">
-              205 avatars<br />thực tế
+              <div className="text-xs uppercase tracking-widest text-slate-500">Dashboard</div>
+              <h1 className="text-2xl font-semibold text-slate-900">STI-Expert Console</h1>
             </div>
           </div>
-          <div className="text-sm text-gray-600 mb-3">
-            Đã import từ production cũ (GlobalVySa) với schema đầy đủ: bằng cấp, chứng chỉ, bài báo, sáng chế, dự án...
-          </div>
-          <div className="flex gap-2">
-            <Link 
-              href="/dashboard/search" 
-              className="flex-1 text-center text-sm bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition"
-            >
-              Tìm chuyên gia thật
-            </Link>
-            <Link 
-              href="/dashboard/documents" 
-              className="flex-1 text-center text-sm border py-2 rounded-xl hover:bg-gray-50 transition"
-            >
-              Quản lý giấy tờ
-            </Link>
-          </div>
+          <Link href="/experts" className="rounded-xl bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800">Tìm chuyên gia</Link>
         </div>
-      </div>
+      </section>
+
+      <main className="mx-auto max-w-7xl px-6 py-8 space-y-8">
+        <div className="rounded-3xl bg-gradient-to-r from-blue-900 via-blue-800 to-cyan-700 p-8 text-white shadow-lg">
+          <h2 className="text-3xl font-bold">Hệ điều hành thị trường tri thức KHCN</h2>
+          <p className="mt-3 max-w-2xl text-blue-100">Kết nối chuyên gia, doanh nghiệp, xác thực hồ sơ, matching AI, quản lý yêu cầu tư vấn.</p>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-4">
+          <div className="rounded-2xl border bg-white p-5 shadow-sm"><div className="text-sm text-slate-500">Experts</div><div className="mt-2 text-3xl font-bold">{stats.experts}</div></div>
+          <div className="rounded-2xl border bg-white p-5 shadow-sm"><div className="text-sm text-slate-500">Users</div><div className="mt-2 text-3xl font-bold">{stats.users}</div></div>
+          <div className="rounded-2xl border bg-white p-5 shadow-sm"><div className="text-sm text-slate-500">Requests</div><div className="mt-2 text-3xl font-bold">0</div></div>
+          <div className="rounded-2xl border bg-white p-5 shadow-sm"><div className="text-sm text-slate-500">Verified</div><div className="mt-2 text-3xl font-bold">0</div></div>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-3">
+          <Link href="/experts" className="rounded-2xl border bg-white p-6 shadow-sm hover:border-blue-300"><div className="text-3xl">🔎</div><h3 className="mt-4 font-semibold">Tìm chuyên gia</h3><p className="mt-2 text-sm text-slate-500">Tra cứu 205 hồ sơ chuyên gia.</p></Link>
+          <Link href="/dashboard/profile" className="rounded-2xl border bg-white p-6 shadow-sm hover:border-blue-300"><div className="text-3xl">👤</div><h3 className="mt-4 font-semibold">Hồ sơ của tôi</h3><p className="mt-2 text-sm text-slate-500">Cập nhật năng lực, học vị, tổ chức.</p></Link>
+          <Link href="/dashboard/admin" className="rounded-2xl border bg-white p-6 shadow-sm hover:border-blue-300"><div className="text-3xl">⚙️</div><h3 className="mt-4 font-semibold">Admin console</h3><p className="mt-2 text-sm text-slate-500">Quản trị hệ thống.</p></Link>
+        </div>
+      </main>
     </div>
   );
 }

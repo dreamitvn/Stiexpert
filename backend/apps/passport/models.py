@@ -40,6 +40,7 @@ class ExpertProfile(models.Model):
 
     # Professional
     orcid = models.CharField(max_length=50, blank=True, default="")
+    sti_id = models.CharField(max_length=64, blank=True, default="", db_index=True)
     organization = models.CharField(max_length=255, blank=True, default="")
     title = models.CharField(max_length=255, blank=True, default="")
     degree = models.CharField(max_length=100, blank=True, default="")
@@ -48,6 +49,7 @@ class ExpertProfile(models.Model):
     nationality = models.CharField(max_length=100, blank=True, default="")
     bio = models.TextField(blank=True, default="")
     summary = models.TextField(blank=True, default="")
+    vneid_verified = models.BooleanField(default=False)
 
     # Avatar & verification (media)
     avatar = models.ImageField(upload_to="expert_avatars/", blank=True, null=True)
@@ -57,6 +59,7 @@ class ExpertProfile(models.Model):
 
     # Social & academic links (increased length for legacy data)
     google_scholar = models.CharField(max_length=500, blank=True, default="")
+    researchgate = models.CharField(max_length=500, blank=True, default="")
     facebook = models.CharField(max_length=500, blank=True, default="")
     linkedin = models.CharField(max_length=500, blank=True, default="")
     website = models.CharField(max_length=500, blank=True, default="")
