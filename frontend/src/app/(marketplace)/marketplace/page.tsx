@@ -84,20 +84,27 @@ export default function MarketplacePage() {
   const [sortBy, setSortBy] = useState("newest");
 
   useEffect(() => {
-    const token = localStorage.getItem("access");
     const headers: HeadersInit = { Accept: "application/json" };
-    if (token) headers["Authorization"] = `Bearer ${token}`;
 
     Promise.all([
-      fetch(`${API}/marketplace/listings/?limit=50`, { headers }).then((r) => r.json()),
-      fetch(`${API}/marketplace/ip-assets/stats/`, { headers }).then((r) => r.json()),
+      fetch(`${API}/marketplace/listings/?limit=50`, { headers }).then((r) => r.ok ? r.json() : { results: [] }),
+      fetch(`${API}/marketplace/ip-assets/stats/`, { headers }).then((r) => r.ok ? r.json() : null),
     ]).then(([listingsData, statsData]) => {
-      setListings(listingsData.results || listingsData);
+      const rows = Array.isArray(listingsData)
+        ? listingsData
+        : Array.isArray(listingsData?.results)
+          ? listingsData.results
+          : [];
+      setListings(rows);
       setStats(statsData);
-    }).catch(() => {}).finally(() => setLoading(false));
+    }).catch(() => {
+      setListings([]);
+      setStats(null);
+    }).finally(() => setLoading(false));
   }, []);
 
-  const filtered = listings
+  const safeListings = Array.isArray(listings) ? listings : [];
+  const filtered = safeListings
     .filter((l) => {
       if (search && !l.ip_asset_detail.title.toLowerCase().includes(search.toLowerCase()) &&
           !l.ip_asset_detail.description?.toLowerCase().includes(search.toLowerCase())) return false;
