@@ -45,3 +45,25 @@
     @apply bg-background text-foreground;
   }
 }
+
+@media print {
+  aside, header, nav, .print\:hidden, [data-print-hide] {
+    display: none !important;
+  }
+  main {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  body { background: white !important; color: black !important; }
+  .bg-gradient-to-r {
+    background: #1e3a5f !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .rounded-2xl, .rounded-3xl { break-inside: avoid; page-break-inside: avoid; }
+}
+
+
+
