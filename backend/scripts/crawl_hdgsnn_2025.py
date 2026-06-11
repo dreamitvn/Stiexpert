@@ -2,12 +2,19 @@
 
 Uses only stdlib (urllib) + PyMuPDF (fitz) — no requests/bs4 needed.
 
-Run inside backend container:
-  LIMIT=5 DRY_RUN=1 USE_LLM=0 python manage.py shell < scripts/crawl_hdgsnn_2025.py
-  LIMIT=5 NINTH_ROUTER_API_KEY=sk-xxx python manage.py shell < scripts/crawl_hdgsnn_2025.py
-  NINTH_ROUTER_API_KEY=sk-xxx python manage.py shell < scripts/crawl_hdgsnn_2025.py
+Run inside backend container (sets up Django automatically):
+  LIMIT=5 DRY_RUN=0 USE_LLM=1 NINTH_ROUTER_API_KEY=*** python /app/scripts/crawl_hdgsnn_2025.py
 """
 from __future__ import annotations
+
+# Django must be set up before model imports
+import os, sys
+sys.path.insert(0, "/app")
+if __name__ == "__main__" and not os.environ.get("DJANGO_READY"):
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.development")
+    os.environ["DJANGO_READY"] = "1"
+    import django
+    django.setup()
 
 import hashlib
 import html
@@ -51,6 +58,16 @@ USE_LLM = os.getenv("USE_LLM", "1") != "0"
 ROUTER_BASE = os.getenv("NINTH_ROUTER_BASE_URL",
                          "http://9router.hoangcd.com:20128/v1").rstrip("/")
 ROUTER_KEY = os.getenv("NINTH_ROUTER_API_KEY", "")
+# Also try reading from .crawl_env file if env not set
+if not ROUTER_KEY:
+    _env_file = Path(__file__).parent.parent / ".crawl_env"
+    if not _env_file.exists():
+        _env_file = Path("/app/.crawl_env")
+    if _env_file.exists():
+        for _line in _env_file.read_text().splitlines():
+            if _line.startswith("NINTH_ROUTER_API_KEY="):
+                ROUTER_KEY = _line.split("=", 1)[1].strip()
+                break
 ROUTER_MODEL = os.getenv("NINTH_ROUTER_MODEL", "stiexperts")
 
 UA = "Mozilla/5.0 STI-Expert-Crawler/2.0"
@@ -197,29 +214,16 @@ def extract_pdf(pdf_path: Path) -> tuple[str, Path | None]:
 def llm_parse(row: CandidateRow, text: str) -> dict[str, Any]:
     if not USE_LLM or not ROUTER_KEY:
         return {}
-    prompt = f"""Bạn là module extraction STI-Expert. Trích xuất CV ứng viên GS/PGS thành JSON.
-Chỉ trả JSON thuần, KHÔNG markdown.
+    # Truncate text to keep prompt short
+    prompt = f"""Trích xuất CV ứng viên GS/PGS thành JSON. Chỉ trả JSON thuần, KHÔNG markdown.
 
-Dữ liệu bảng:
-{json.dumps(asdict(row), ensure_ascii=False)}
+Bảng: {json.dumps(asdict(row), ensure_ascii=False)}
 
-Nội dung PDF (cắt nếu quá dài):
-{text[:40000]}
+PDF (first 15000 chars): {text[:15000]}
 
-Schema JSON cần điền:
-{{
-  "summary": "tóm tắt 2-3 câu",
-  "degree": "học vị cao nhất",
-  "main_field": "ngành chính",
-  "education": [{{"school_name":"", "degree":"", "field_of_study":"", "start_date":"", "end_date":"", "description":""}}],
-  "experiences": [{{"position":"", "company_name":"", "start_date":"", "stop_date":"", "description":""}}],
-  "certificates": [{{"name":"", "issuing_organization":"", "issue_date":"", "license_number":""}}],
-  "awards": [{{"name":"", "org":"", "earn_date":""}}],
-  "projects": [{{"name":"", "role":"", "sponsor":"", "result":""}}],
-  "patents": [{{"title":"", "num":"", "org":"", "earn_date":""}}],
-  "papers": [{{"title":"", "year":"", "journal":"", "link":"", "authors":"", "cited_by":""}}],
-  "research_results": [{{"title":"", "result":""}}]
-}}"""
+JSON (chỉ điền những gì CHẮC CHẮN, bỏ trống其余):
+{{"summary":"","degree":"","main_field":"","education":[{{"school_name":"","degree":"","field_of_study":""}}],"experiences":[{{"position":"","company_name":""}}],"certificates":[{{"name":"","issuing_organization":""}}],"awards":[{{"name":"","org":""}}],"papers":[{{"title":"","year":""}}],"patents":[{{"title":"","num":""}}],"research_results":[{{"title":""}}]}}
+"""
     body = json.dumps({
         "model": ROUTER_MODEL,
         "messages": [{"role": "user", "content": prompt}],
@@ -237,11 +241,30 @@ Schema JSON cần điền:
         result = json.loads(resp.read())
     content = result["choices"][0]["message"]["content"]
     content = re.sub(r"^```json\s*|\s*```$", "", content.strip(), flags=re.I | re.S)
+    # Extract first JSON object robustly
     try:
         return json.loads(content)
-    except Exception:
-        (BASE_DIR / f"llm-bad-{row.idx:03d}.txt").write_text(content, encoding="utf-8")
-        return {}
+    except json.JSONDecodeError:
+        # Try to find first { ... } block
+        brace_start = content.find("{")
+        if brace_start == -1:
+            (BASE_DIR / f"llm-bad-{row.idx:03d}.txt").write_text(content, encoding="utf-8")
+            return {}
+        depth = 0
+        end = brace_start
+        for i in range(brace_start, len(content)):
+            if content[i] == "{":
+                depth += 1
+            elif content[i] == "}":
+                depth -= 1
+                if depth == 0:
+                    end = i + 1
+                    break
+        try:
+            return json.loads(content[brace_start:end])
+        except Exception:
+            (BASE_DIR / f"llm-bad-{row.idx:03d}.txt").write_text(content, encoding="utf-8")
+            return {}
 
 
 # ── 5. Upsert to DB ───────────────────────────────────
@@ -345,9 +368,16 @@ def upsert_candidate(
             ).first()
         if not expert:
             email = f"hdgsnn-{sid.lower()}@stiexpert.local"
+            username = f"hdgsnn-{sid.lower()}"
+            name_parts = row.full_name.split()
             user, _ = User.objects.get_or_create(
                 email=email,
-                defaults={"role": "expert", "full_name": row.full_name},
+                defaults={
+                    "username": username[:150],
+                    "role": "expert",
+                    "first_name": " ".join(name_parts[:-1])[:150],
+                    "last_name": (name_parts[-1] if name_parts else "")[:150],
+                },
             )
             expert, _ = ExpertProfile.objects.get_or_create(
                 user=user, defaults={"full_name": row.full_name}

@@ -53,6 +53,7 @@ urlpatterns = [
     path("api/v1/passport/", include("apps.passport.urls")),
     path("api/v1/matching/", include("apps.matching.urls")),
     path("api/v1/connect/", include("apps.connect.urls")),
+    path("api/v1/marketplace/", include("apps.marketplace.urls")),
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,684 @@
+{
+  "total_rows": 256,
+  "created_or_updated": 121,
+  "pdfs": 122,
+  "portraits": 121,
+  "llm_parsed": 0,
+  "errors": [
+    {
+      "idx": 6,
+      "name": "Đồng Văn Hiếu",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CN-TY-TS/Dong van Hieu 1984-03-26-1751270509.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 2,
+      "name": "Dương Thành Huân",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CO/Duong Thanh Huan.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 1,
+      "name": "Lê Thanh Danh",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/le-thanh-danh-1978-01-12-1751172329.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 2,
+      "name": "Hồ Xuân Năng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/ho-xuan-nang-1964-11-04-1750431767.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 3,
+      "name": "Phạm Văn Sáng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/2025_PhamVanSang.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 4,
+      "name": "Đặng Thành Trung",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/dang-thanh-trung-1978-05-19-1751169062.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 5,
+      "name": "Hoàng Anh Tuấn",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/hoang-anh-tuan-1980-10-13-1751084436.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 6,
+      "name": "Nguyễn Tuấn Anh",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/nguyen-tuan-anh-1979-12-09-1751028575.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 7,
+      "name": "Phan Công Bình",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/phan-cong-binh-1982-06-14-1751184539.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 8,
+      "name": "Lê Khắc Bình",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/le-khac-binh-1977-07-15-1751010056.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 9,
+      "name": "Trần Công Chi",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/tran-cong-chi-1984-07-25-1751157922.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 10,
+      "name": "Nguyễn Hữu Cường",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/nguyen-huu-cuong-1980-11-06-1751149751.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 11,
+      "name": "Trương Đắc Dũng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/truong-dac-dung-1985-08-20-1751216473.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 12,
+      "name": "Lương Việt Dũng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/luong-viet-dung-1982-02-02-1751098207.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 13,
+      "name": "Trần Văn Đua",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/tran-van-dua-1979-04-02-1751061811.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 14,
+      "name": "Trần Thị Thu Hằng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/tran-thi-thu-hang-1985-12-11-1750908461.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 15,
+      "name": "Trịnh Xuân Hiệp",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/trinh-xuan-hiep-1984-08-03-1750995312.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 16,
+      "name": "Lê Đức Hiếu",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/le-duc-hieu-1977-03-10-1751182404.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 17,
+      "name": "Triệu Quý Huy",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/trieu-quy-huy-1983-05-05-1749867002.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 18,
+      "name": "Tạ Tuấn Hưng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/ta-tuan-hung-1983-03-18-1751260568.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 19,
+      "name": "Nguyễn Văn Hưng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/nguyen-van-hung-1985-03-13-1750839430.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 20,
+      "name": "Nguyễn Ngọc Kiên",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/nguyen-ngoc-kien-1980-03-09-1750926751.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 21,
+      "name": "Đặng Hoàng Minh",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/dang-hoang-minh-1984-10-13-1751177550.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 22,
+      "name": "Đỗ Văn Minh",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/do-van-minh-1979-06-10-1751003348.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 23,
+      "name": "Phan Duy Nam",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/phan-duy-nam-1987-08-28-1750389501.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 24,
+      "name": "Lê Hoài Nam",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/le-hoai-nam-1986-03-04-1750869116.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 25,
+      "name": "Lê Văn Nghĩa",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/le-van-nghia-1985-10-15-1750992721.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 26,
+      "name": "Lê Thị Tuyết Nhung",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/le-thi-tuyet-nhung-1983-11-20-1751010571.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 27,
+      "name": "Phạm Thanh Nhựt",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/pham-thanh-nhut-1977-11-26-1751185116.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 28,
+      "name": "Đào Thanh Phong",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/dao-thanh-phong-1982-08-29-1750836128.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 29,
+      "name": "Trương Đức Phức",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/truong-duc-phuc-1983-07-18-1751016914.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 30,
+      "name": "Lê Anh Sơn",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/le-anh-son-1984-11-23-1751066092.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 31,
+      "name": "Võ Như Thành",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/vo-nhu-thanh-1983-11-18-1751101922.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 32,
+      "name": "Tô Viết Thành",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/to-viet-thanh-1978-09-17-1750984151.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 33,
+      "name": "Hoàng Văn Thạnh",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/hoang-van-thanh-1984-04-27-1751280991.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 34,
+      "name": "Lê Văn Thảo",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/le-van-thao-1985-02-07-1751003184.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 35,
+      "name": "Lưu Thị Tho",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/luu-thi-tho-1973-09-27-1751177919.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 36,
+      "name": "Nguyễn Mạnh Tiến",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/nguyen-manh-tien-1984-08-10-1750980242.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 37,
+      "name": "Nguyễn Văn Tình",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/nguyen-van-tinh-1989-05-24-1750917425.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 38,
+      "name": "Nguyễn Văn Trang",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/nguyen-van-trang-1987-09-05-1750945681.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 39,
+      "name": "Nguyễn Khoa Triều",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/nguyen-khoa-trieu-1981-03-23-1751212088.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 40,
+      "name": "Phạm Đình Trung",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/pham-dinh-trung-1977-12-20-1751082254.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 41,
+      "name": "Đinh Công Trường",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/dinh-cong-truong-1976-08-28-1751111532.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 42,
+      "name": "Nguyễn Văn Trường",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/nguyen-van-truong-1989-07-08-1751153017.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 43,
+      "name": "Lưu Anh Tùng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/luu-anh-tung-1984-06-05-1750979780.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 44,
+      "name": "Nguyễn Xuân Viên",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/nguyen-xuan-vien-1987-08-20-1750824856.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 45,
+      "name": "Vũ Quốc Việt",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/vu-quoc-viet-1984-07-03-1751034147.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 46,
+      "name": "Nguyễn Duy Vinh",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/nguyen-duy-vinh-1984-07-09-1751263019.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 47,
+      "name": "Huỳnh Văn Vũ",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CK -DL/huynh-van-vu-1975-08-24-1751255011.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 1,
+      "name": "Huỳnh Thị Thanh Bình",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/HUYNH THI THANH BINH.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 2,
+      "name": "Huỳnh Trung Hiếu",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/HUYNH TRUNG HIEU.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 3,
+      "name": "Trần Công Án",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/TRAN CONG AN.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 4,
+      "name": "Lê Hữu Bình",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/LE HUU BINH.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 5,
+      "name": "Nguyễn Thị Mỹ Bình",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/NGUYEN THI MY BINH.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 6,
+      "name": "Phan Thượng Cang",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/PHAN THUONG CANG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 7,
+      "name": "Nguyễn Tấn Cầm",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/NGUYEN TAN CAM.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 8,
+      "name": "Ma Thị Châu",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/MA THI CHAU.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 9,
+      "name": "Nguyễn Hùng Cường",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/NGUYEN HUNG CUONG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 10,
+      "name": "Nguyễn Hà Huy Cường",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/NGUYEN HA HUY CUONG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 11,
+      "name": "Tạ Việt Cường",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/TA VIET CUONG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 12,
+      "name": "Trần Tiến Dũng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/TRAN TIEN DUNG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 13,
+      "name": "Vũ Tiến Dũng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/VU TIEN DUNG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 14,
+      "name": "Nguyễn Tiến Duy",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/NGUYEN TIEN DUY.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 15,
+      "name": "Ngô Thị Duyên",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/NGO THI DUYEN.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 16,
+      "name": "Trần Hoàng Hải",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/TRAN HOANG HAI.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 17,
+      "name": "Đặng Thanh Hải",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/Dang Thanh hai.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 18,
+      "name": "Phạm Văn Hậu",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/PHAM VAN HAU.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 19,
+      "name": "Lâm Thành Hiển",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/LAM THANH HIEN.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 20,
+      "name": "Vũ Văn Hiệu",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/VU VAN HIEU.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 21,
+      "name": "Phan Thị Thu Hồng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/PHAN THI THU HONG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 22,
+      "name": "Lê Kim Hùng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/LE KIM HUNG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 23,
+      "name": "Nguyễn Việt Hùng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/NGUYEN VIET HUNG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 24,
+      "name": "Nguyễn Tấn Trần Minh Khang",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/NGUYEN TAN TRAN MINH KHANG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 25,
+      "name": "Phạm Mạnh Linh",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/PHAM MANH LINH.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 26,
+      "name": "Trần Thị Lượng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/TRAN THI LUONG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 27,
+      "name": "Nguyễn Đức Mạnh",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/NGUYEN DUC MANH.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 28,
+      "name": "Nguyễn Văn Núi",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/NGUYEN VAN NUI.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 29,
+      "name": "Trần Thanh Phước",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/TRAN THANH PHUOC.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 30,
+      "name": "Nguyễn Hồng Quang",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/NGUYEN HONG QUANG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 31,
+      "name": "Vũ Khánh Quý",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/VU KHANH QUY.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 32,
+      "name": "Hà Việt Uyên Synh",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/HA VIET UYEN SYNH.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 33,
+      "name": "Võ Thị Hồng Thắm",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/VO THI HONG THAM.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 34,
+      "name": "Phạm Công Thắng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/PHAM CONG THANG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 35,
+      "name": "Đặng Xuân Thọ",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/DANG XUAN THO.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 36,
+      "name": "Phạm Thị Thanh Thủy",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/PHAM THI THANH THUY.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 37,
+      "name": "Nguyễn Gia Trí",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/CNTT/NGUYEN GIA TRI.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 2,
+      "name": "Trần Việt Hùng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/DUOC/Tran Viet Hung revised.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 1,
+      "name": "Nguyễn Thanh Hải",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/NGUYEN THANH HAI.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 2,
+      "name": "Trần Công Hùng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/TRAN CONG HUNG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 3,
+      "name": "Nguyễn Chí Ngôn",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/NGUYEN CHI NGON.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 4,
+      "name": "Nguyễn Linh Trung",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/NGUYEN LINH TRUNG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 5,
+      "name": "Đặng Xuân Ba",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/DANG XUAN BA.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 6,
+      "name": "Đoàn Thanh Bảo",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/DOAN THANH BAO.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 7,
+      "name": "Nguyễn Xuân Chiêm",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/NGUYEN XUAN CHIEM.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 8,
+      "name": "Trần Trọng Đạo",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/TRAN TRONG DAO.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 9,
+      "name": "Đặng Ngọc Minh Đức",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/DANG NGOC MINH DUC.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 10,
+      "name": "Phạm Mạnh Hải",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/PHAM MANH HAI.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 11,
+      "name": "Phạm Thị Thúy Hiền",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/PHAM THI THUY HIEN.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 12,
+      "name": "Lưu Trọng Hiếu",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/LUU TRONG HIEU.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 13,
+      "name": "Trương Thị Hoa",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/TRUONG THI HOA.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 14,
+      "name": "Lê Tuấn Hộ",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/LE TUAN HO.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 15,
+      "name": "Nguyễn Mạnh Hùng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/NGUYEN MANH HUNG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 16,
+      "name": "Nguyễn Danh Huy",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/NGUYEN DANH HUY.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 17,
+      "name": "Phạm Trung Kiên",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/PHAM TRUNG KIEN.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 18,
+      "name": "Lâm Đức Khải",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/LAM DUC KHAI.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 19,
+      "name": "Nguyễn Ngọc Khoát",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/NGUYEN NGOC KHOAT.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 20,
+      "name": "Lê Hồng Lâm",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/LE HONG LAM.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 21,
+      "name": "Trần Hoàng Linh",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/TRAN HOANG LINH.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 22,
+      "name": "Nguyễn Tùng Linh",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/NGUYEN TUNG LINH.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 23,
+      "name": "Cung Thành Long",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/CUNG THANH LONG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 24,
+      "name": "Tống Văn Luyên",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/TONG VAN LUYEN.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 25,
+      "name": "Nguyễn Công Lượng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/NGUYEN CONG LUONG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 26,
+      "name": "Nguyễn Quốc Minh",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/NGUYEN QUOC MINH.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 27,
+      "name": "Lê Trọng Nghĩa",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/LE TRONG NGHIA.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 28,
+      "name": "Trần Thanh Ngọc",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/TRAN THANH NGOC.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 29,
+      "name": "Trần Thanh Phương",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/TRAN THANH PHUONG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 30,
+      "name": "Nguyễn Thu Phương",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/NGUYEN THU PHUONG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 31,
+      "name": "Đỗ Duy Tân",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/DO DUY TAN.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 32,
+      "name": "Võ Duy Thành",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/VO DUY THANH.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 33,
+      "name": "Nguyễn Thị Hoài Thu",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/NGUYEN THI HOAI THU.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 34,
+      "name": "Nguyễn Thanh Thuận",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/NGUYEN THANH THUAN.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 35,
+      "name": "Kiều Xuân Thực",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/KIEU XUAN THUC.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 36,
+      "name": "Vũ Hữu Tiến",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/VU HUU TIEN.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 37,
+      "name": "Trần Anh Tùng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/TRAN ANH TUNG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 38,
+      "name": "Nguyễn Nhất Tùng",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/NGUYEN NHAT TUNG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 39,
+      "name": "Vương Anh Trung",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/VUONG ANH TRUNG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 40,
+      "name": "Lê Phương Trường",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/LE PHUONG TRUONG.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 41,
+      "name": "Tạ Sơn Xuất",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/TA SON XUAT.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 42,
+      "name": "Huỳnh Văn Vạn",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/HUYNH VAN VAN.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 43,
+      "name": "Nguyễn Ngọc Việt",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/NGUYEN NGOC VIET.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 44,
+      "name": "Trần Hoàng Vũ",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/D-DT-TDH/TRAN HOANG VU.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 8,
+      "name": "Nguyễn Văn Bích",
+      "error": "A string literal cannot contain NUL (0x00) characters."
+    },
+    {
+      "idx": 3,
+      "name": "Nguyễn Danh Nam",
+      "error": "URL can't contain control characters. '/files/anhbaiviet/files/2025/GD/Nguyen Danh Nam.pdf' (found at least ' ')"
+    },
+    {
+      "idx": 19,
+      "name": "Phan Trung Kiên",
+      "error": "timed out"
+    },
+    {
+      "idx": 34,
+      "name": "Bùi Lê Diễm Trang",
+      "error": "timed out"
+    }
+  ]
+}

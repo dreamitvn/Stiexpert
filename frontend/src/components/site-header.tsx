@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 const navItems = [
   { href: "/", label: "Trang chủ" },
   { href: "/experts", label: "Chuyên gia" },
+  { href: "/marketplace", label: "Sàn giao dịch IP" },
   { href: "/news", label: "Tin tức" },
   { href: "/about", label: "Về chúng tôi" },
   { href: "/contact", label: "Liên hệ" },

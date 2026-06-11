@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "apps.passport",
     "apps.matching",
     "apps.connect",
+    "apps.marketplace",
 ]
 
 MIDDLEWARE = [
