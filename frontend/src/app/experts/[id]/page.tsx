@@ -61,6 +61,7 @@ export default async function ExpertDetailPage({ params }: { params: Promise<{ i
     : expert.main_field ? [expert.main_field] : [];
 
   const hidden = expert.hide_info;
+  const profileUrl = `https://v2.stiexpert.com/experts/${id}`;
 
   return (
     <div className="min-h-screen bg-slate-50 py-10">
@@ -106,6 +107,18 @@ export default async function ExpertDetailPage({ params }: { params: Promise<{ i
               <div className="mt-5 grid gap-3">
                 <a href={`mailto:${expert.email || "contact@stiexpert.com"}`} className="rounded-xl bg-blue-600 px-4 py-3 text-center text-sm font-semibold text-white hover:bg-blue-700 transition">Liên hệ chuyên gia</a>
                 <a href="tel:0868144913" className="rounded-xl border px-4 py-3 text-center text-sm font-semibold text-gray-700 hover:bg-gray-50 transition">Đặt lịch tư vấn</a>
+              </div>
+
+              <div className="mt-6 rounded-2xl border bg-slate-50 p-4 text-center">
+                <div className="text-sm font-semibold text-gray-800">Mã QR hồ sơ</div>
+                <img
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(profileUrl)}`}
+                  alt={`QR link hồ sơ ${expert.full_name}`}
+                  className="mx-auto mt-3 h-40 w-40 rounded-xl border bg-white p-2"
+                />
+                <a href={profileUrl} className="mt-2 block break-all text-xs text-blue-600 hover:underline">
+                  {profileUrl}
+                </a>
               </div>
             </div>
 

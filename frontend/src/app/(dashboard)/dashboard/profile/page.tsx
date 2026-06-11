@@ -6,6 +6,7 @@ import Link from "next/link";
 
 type AnyRow = Record<string, any>;
 type Profile = {
+  slug?: string;
   full_name?: string;
   title?: string;
   avatar?: string | null;
@@ -139,8 +140,8 @@ export default function PassportViewPage() {
             className="rounded-xl bg-white/20 border border-white/30 text-white px-5 py-2 text-sm font-semibold hover:bg-white/30 transition print:hidden">
             🖨️ In Hộ chiếu tri thức
           </button>
-          {profile.is_public !== false && (
-            <a href={`/experts`} target="_blank"
+          {profile.is_public !== false && profile.slug && (
+            <a href={`/experts/${profile.slug}`} target="_blank"
               className="rounded-xl bg-white/20 border border-white/30 text-white px-5 py-2 text-sm font-semibold hover:bg-white/30 transition print:hidden">
               ↗ Xem trang công khai
             </a>
