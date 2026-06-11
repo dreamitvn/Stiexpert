@@ -9,6 +9,7 @@ const menuItems = [
   { label: "Chỉnh sửa hồ sơ", href: "/dashboard/edit-profile", icon: "✏️" },
   { label: "Ấn phẩm", href: "/dashboard/documents", icon: "📄" },
   { label: "My IP Assets", href: "/dashboard/my-assets", icon: "💎" },
+  { label: "Mint IP-NFT", href: "/dashboard/mint-ip", icon: "🎨" },
   { label: "Tạo niêm yết", href: "/dashboard/create-listing", icon: "🏷️" },
   { label: "Giao dịch IP", href: "/dashboard/transactions", icon: "📋" },
   { label: "Tìm chuyên gia", href: "/dashboard/search", icon: "🔍" },
