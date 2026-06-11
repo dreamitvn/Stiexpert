@@ -23,7 +23,6 @@ export function SiteFooter() {
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
               <img src="/logo.svg" alt="STI Expert" className="h-8 w-auto brightness-0 invert" />
-              <span className="text-lg font-bold text-white">STI Expert</span>
             </div>
             <p className="text-sm leading-relaxed text-slate-400">
               Hệ điều hành Thị trường Tri thức Khoa học Công nghệ — Kết nối chuyên gia hàng đầu Việt Nam với doanh nghiệp.

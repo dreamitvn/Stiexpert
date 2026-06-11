@@ -32,10 +32,6 @@ export function SiteHeader() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 shrink-0">
           <img src="/logo.svg" alt="STI Expert" className="h-8 w-auto" />
-          <span className="text-xl font-bold hidden sm:inline">
-            <span className="text-sky-500">STI</span>
-            <span className="text-gray-900"> Expert</span>
-          </span>
         </Link>
 
         {/* Desktop nav */}
