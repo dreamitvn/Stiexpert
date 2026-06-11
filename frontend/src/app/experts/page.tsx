@@ -105,11 +105,14 @@ export default function ExpertsPage() {
                   {expert.organization && <div className="text-sm text-gray-500 mt-1 line-clamp-1">{expert.organization}</div>}
                   {!!expert.fields?.length && (
                     <div className="mt-3 flex flex-wrap gap-2">
-                      {expert.fields.slice(0, 3).map((field) => (
-                        <span key={field} className="inline-block px-2 py-0.5 text-xs rounded-full bg-blue-50 text-blue-700">
-                          {field}
-                        </span>
-                      ))}
+                      {expert.fields.slice(0, 3).map((field, fi) => {
+                        const label = typeof field === "string" ? field : (field as any)?.name || String(field);
+                        return (
+                          <span key={fi} className="inline-block px-2 py-0.5 text-xs rounded-full bg-blue-50 text-blue-700">
+                            {label}
+                          </span>
+                        );
+                      })}
                     </div>
                   )}
                 </div>

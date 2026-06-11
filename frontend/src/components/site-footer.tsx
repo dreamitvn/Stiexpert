@@ -22,13 +22,8 @@ export function SiteFooter() {
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <svg className="h-8 w-8" viewBox="0 0 32 32" fill="none">
-                <rect width="32" height="32" rx="8" fill="#0ea5e9" />
-                <text x="16" y="22" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold" fontFamily="system-ui">S</text>
-              </svg>
-              <span className="text-lg font-bold text-white">
-                STI Expert
-              </span>
+              <img src="/logo.svg" alt="STI Expert" className="h-8 w-auto brightness-0 invert" />
+              <span className="text-lg font-bold text-white">STI Expert</span>
             </div>
             <p className="text-sm leading-relaxed text-slate-400">
               Hệ điều hành Thị trường Tri thức Khoa học Công nghệ — Kết nối chuyên gia hàng đầu Việt Nam với doanh nghiệp.
