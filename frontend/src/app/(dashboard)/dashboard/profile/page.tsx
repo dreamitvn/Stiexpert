@@ -131,7 +131,7 @@ export default function PassportViewPage() {
         </div>
         <div className="mt-6 flex gap-3 flex-wrap">
           <Link href="/dashboard/edit-profile"
-            className="rounded-xl bg-white text-blue-800 px-5 py-2 text-sm font-semibold hover:bg-blue-50 transition">
+            className="rounded-xl bg-white text-blue-800 px-5 py-2 text-sm font-semibold hover:bg-blue-50 transition print:hidden">
             ✏️ Chỉnh sửa hồ sơ
           </Link>
           <button
@@ -141,7 +141,7 @@ export default function PassportViewPage() {
           </button>
           {profile.is_public !== false && (
             <a href={`/experts`} target="_blank"
-              className="rounded-xl bg-white/20 border border-white/30 text-white px-5 py-2 text-sm font-semibold hover:bg-white/30 transition">
+              className="rounded-xl bg-white/20 border border-white/30 text-white px-5 py-2 text-sm font-semibold hover:bg-white/30 transition print:hidden">
               ↗ Xem trang công khai
             </a>
           )}
