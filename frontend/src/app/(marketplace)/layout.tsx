@@ -1,12 +1,5 @@
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
-
+// Marketplace pages use root SiteChrome for header/footer
+// No additional wrappers needed — keep empty
 export default function MarketplaceLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <>
-      <SiteHeader />
-      {children}
-      <SiteFooter />
-    </>
-  );
+  return <>{children}</>;
 }
