@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "apps.matching",
     "apps.connect",
     "apps.marketplace",
+    "apps.news",
 ]
 
 MIDDLEWARE = [

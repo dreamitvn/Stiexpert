@@ -18,6 +18,7 @@ const menuItems = [
   { label: "Tin nhắn", href: "/dashboard/messages", icon: "💬" },
   { label: "Cài đặt", href: "/dashboard/settings", icon: "⚙️" },
   { label: "Quản trị", href: "/dashboard/admin", icon: "🔧", adminOnly: true },
+  { label: "CMS Tin tức", href: "/dashboard/admin/news", icon: "📰", adminOnly: true },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

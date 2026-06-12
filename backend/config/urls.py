@@ -54,6 +54,7 @@ urlpatterns = [
     path("api/v1/matching/", include("apps.matching.urls")),
     path("api/v1/connect/", include("apps.connect.urls")),
     path("api/v1/marketplace/", include("apps.marketplace.urls")),
+    path("api/v1/news/", include("apps.news.urls")),
 ]
 
 if settings.DEBUG:
