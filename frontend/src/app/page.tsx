@@ -1,127 +1,150 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+const API = process.env.NEXT_PUBLIC_API_URL || "https://v2.stiexpert.com/api/v1";
 
 export default function Home() {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [experts, setExperts] = useState<any[]>([]);
+  const [stats, setStats] = useState({ users: 223, assets: 0, listings: 0 });
+
+  useEffect(() => {
+    fetch(`${API}/passport/experts/?limit=3`)
+      .then((r) => r.ok ? r.json() : { results: [] })
+      .then((data) => setExperts(data.results || data))
+      .catch(() => {});
+    fetch(`${API}/marketplace/ip-assets/stats/`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((data) => { if (data) setStats(s => ({ ...s, assets: data.total_assets, listings: data.total_listings })); })
+      .catch(() => {});
+  }, []);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) router.push(`/experts?q=${encodeURIComponent(searchQuery)}`);
+  };
+
   return (
     <div className="min-h-screen">
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-blue-50 to-white pt-20 pb-32">
+      {/* HERO SECTION */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-sky-50 to-white pt-20 pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-medium mb-8">
-            <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
-            Nền tảng KHCN đầu tiên tại Việt Nam
+          <div className="inline-flex items-center gap-2 bg-sky-100 text-sky-800 px-4 py-1.5 rounded-full text-sm font-medium mb-8">
+            <span className="w-2 h-2 bg-sky-500 rounded-full animate-pulse" />
+            STI-Expert v2.0 - Tích hợp Blockchain & AI
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
-            Hệ điều hành <span className="text-blue-600">Thị trường Tri thức</span>
+          <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight leading-tight">
+            Nền tảng Kết nối <span className="text-sky-600">Chuyên gia</span>
             <br />
-            KHCN Việt Nam
+            Khoa học & Công nghệ
           </h1>
-          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-10">
-            Kết nối chuyên gia khoa học với doanh nghiệp thông qua xác thực Blockchain
-            và khớp nối AI thông minh. Biến nghiên cứu thành giá trị thương mại.
+          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed">
+            Mạng lưới hơn {stats.users}+ chuyên gia, trí thức và nhà khoa học hàng đầu.
+            Tìm kiếm, trao đổi tri thức và giao dịch tài sản sở hữu trí tuệ một cách minh bạch.
           </p>
+
+          {/* Search Box */}
+          <form onSubmit={handleSearch} className="max-w-2xl mx-auto bg-white p-2 rounded-2xl shadow-xl shadow-sky-100 flex items-center mb-10 border border-gray-100">
+            <span className="pl-4 pr-2 text-2xl">🔍</span>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Tìm theo tên, lĩnh vực (VD: Blockchain, Nông nghiệp, Tài chính)..."
+              className="flex-1 py-3 px-2 focus:outline-none text-gray-700 bg-transparent"
+            />
+            <button type="submit" className="bg-sky-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-sky-700 transition">
+              Tìm kiếm
+            </button>
+          </form>
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/auth/register"
-              className="px-8 py-3.5 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/25 text-lg"
-            >
-              Bắt đầu miễn phí →
+            <Link href="/auth/register" className="px-8 py-3 bg-gray-900 text-white font-semibold rounded-xl hover:bg-gray-800 transition shadow-lg text-lg">
+              Trở thành chuyên gia
             </Link>
-            <Link
-              href="/experts"
-              className="px-8 py-3.5 bg-white text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-all border border-gray-200 text-lg"
-            >
-              Khám phá chuyên gia
+            <Link href="/marketplace" className="px-8 py-3 bg-white text-sky-700 font-semibold rounded-xl hover:bg-sky-50 transition border-2 border-sky-100 text-lg">
+              Sàn giao dịch IP
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section id="features" className="py-24 bg-white">
+      {/* STATS */}
+      <section className="py-12 border-t border-b border-gray-100 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Ba trụ cột cốt lõi</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Kết hợp Blockchain, AI và Marketplace tạo nên vòng lặp giá trị cộng hưởng
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="p-8 rounded-2xl border border-gray-100 hover:shadow-xl transition-shadow bg-white">
-              <div className="w-14 h-14 bg-emerald-100 rounded-xl flex items-center justify-center mb-6">
-                <svg className="w-7 h-7 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Trust — Tin cậy</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Hộ chiếu Tri thức Số được xác thực bằng Blockchain. Verifiable Credentials
-                biến mọi tuyên bố thành bằng chứng mật mã không thể giả mạo.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                <span className="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full">SpruceID</span>
-                <span className="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full">DID/VC</span>
-                <span className="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full">Blockchain</span>
-              </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-gray-100">
+            <div>
+              <div className="text-4xl font-bold text-sky-600 mb-1">223+</div>
+              <div className="text-gray-500 font-medium">Chuyên gia</div>
             </div>
-
-            <div className="p-8 rounded-2xl border border-gray-100 hover:shadow-xl transition-shadow bg-white">
-              <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
-                <svg className="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Intelligence — Thông minh</h3>
-              <p className="text-gray-600 leading-relaxed">
-                AI phân tích ngữ nghĩa bài báo, xây dựng đồ thị tri thức, khớp nối
-                chuyên gia với doanh nghiệp tự động — vượt xa tìm kiếm từ khóa.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">PhoBERT</span>
-                <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">PaperQA2</span>
-                <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">AI Matching</span>
-              </div>
+            <div>
+              <div className="text-4xl font-bold text-sky-600 mb-1">22</div>
+              <div className="text-gray-500 font-medium">Lĩnh vực chuyên môn</div>
             </div>
-
-            <div className="p-8 rounded-2xl border border-gray-100 hover:shadow-xl transition-shadow bg-white">
-              <div className="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
-                <svg className="w-7 h-7 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Marketplace — Giao dịch</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Sàn giao dịch tài sản trí tuệ với Zero-Knowledge Proofs. Chuyên gia
-                chứng minh quyền sở hữu mà không lộ nội dung sáng chế.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">IP-NFT</span>
-                <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">ZK-Proofs</span>
-                <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">Smart Contract</span>
-              </div>
+            <div>
+              <div className="text-4xl font-bold text-sky-600 mb-1">{stats.assets || 5}</div>
+              <div className="text-gray-500 font-medium">Tài sản IP đã đúc</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-sky-600 mb-1">Blockchain</div>
+              <div className="text-gray-500 font-medium">Xác thực DID/VC</div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-16 bg-blue-600">
+      {/* FEATURED EXPERTS */}
+      <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div className="flex justify-between items-end mb-10">
             <div>
-              <div className="text-4xl font-bold text-white mb-2">22</div>
-              <div className="text-blue-200 text-sm">Trường dữ liệu Hộ chiếu</div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">Chuyên gia nổi bật</h2>
+              <p className="text-gray-600">Những bộ óc hàng đầu được xác thực danh tính bởi STI-Expert.</p>
             </div>
-            <div>
-              <div className="text-4xl font-bold text-white mb-2">768</div>
-              <div className="text-blue-200 text-sm">Chiều vector AI</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-white mb-2">W3C</div>
-              <div className="text-blue-200 text-sm">Chuẩn DID/VC quốc tế</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-white mb-2">&lt;2s</div>
-              <div className="text-blue-200 text-sm">Thời gian matching</div>
-            </div>
+            <Link href="/experts" className="hidden sm:inline-block text-sky-600 hover:text-sky-700 font-medium">
+              Xem tất cả →
+            </Link>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {experts.map((exp, idx) => (
+              <Link href={`/experts/${exp.slug}`} key={idx} className="group bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-lg hover:border-sky-200 transition-all">
+                <div className="flex items-center gap-4 mb-4">
+                  {exp.avatar ? (
+                    <img src={String(exp.avatar).startsWith("http") ? String(exp.avatar) : `https://v2.stiexpert.com${exp.avatar}`} className="w-16 h-16 rounded-full object-cover ring-2 ring-gray-100" alt="Avatar" />
+                  ) : (
+                    <div className="w-16 h-16 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center text-xl font-bold">
+                      {(exp.full_name || "C")[0].toUpperCase()}
+                    </div>
+                  )}
+                  <div>
+                    <h3 className="font-bold text-lg text-gray-900 group-hover:text-sky-600 transition">
+                      {exp.full_name || "Chuyên gia"}
+                      {exp.professional_verified && <span title="Tích xanh" className="ml-1 text-sm">✅</span>}
+                      {exp.identity_verified && <span title="Tích vàng" className="ml-1 text-sm">🟡</span>}
+                    </h3>
+                    <p className="text-sm text-gray-500 line-clamp-1">{exp.bio || exp.title || exp.main_field || "Chuyên gia KHCN"}</p>
+                  </div>
+                </div>
+                {exp.fields && exp.fields.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {exp.fields.slice(0, 3).map((f: any, i: number) => {
+                      const label = typeof f === "string" ? f : f?.name;
+                      return label ? (
+                        <span key={i} className="px-2.5 py-1 bg-gray-100 text-gray-600 text-xs rounded-md">{label}</span>
+                      ) : null;
+                    })}
+                  </div>
+                )}
+              </Link>
+            ))}
+          </div>
+          <div className="mt-8 text-center sm:hidden">
+             <Link href="/experts" className="text-sky-600 font-medium hover:underline">Xem tất cả chuyên gia →</Link>
           </div>
         </div>
       </section>
