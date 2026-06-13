@@ -1,8 +1,6 @@
 "use client";
 
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "https://v2.stiexpert.com/api/v1";
 
@@ -13,70 +11,87 @@ interface Props {
 }
 
 export default function CKEditorWrapper({ value, onChange, token }: Props) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  function uploadAdapter(loader: any) {
-    return {
-      upload() {
-        return loader.file.then((file: File) => {
-          return new Promise((resolve, reject) => {
-            const formData = new FormData();
-            formData.append("upload", file);
-            fetch(`${API}/news/articles/upload_image/`, {
-              method: "POST",
-              headers: { Authorization: `Bearer ${token}` },
-              body: formData,
-            })
-              .then(r => r.json())
-              .then(data => {
-                if (data.url) resolve({ default: data.url });
-                else reject(new Error("Upload failed"));
-              })
-              .catch(reject);
+  useEffect(() => {
+    let destroyed = false;
+
+    import("@ckeditor/ckeditor5-build-classic").then((mod) => {
+      if (destroyed || !containerRef.current) return;
+      const ClassicEditor = mod.default;
+
+      ClassicEditor.create(containerRef.current!, {
+        toolbar: [
+          "heading", "|",
+          "bold", "italic", "link",
+          "bulletedList", "numberedList", "|",
+          "imageUpload", "blockQuote", "mediaEmbed", "|",
+          "insertTable", "|",
+          "undo", "redo"
+        ],
+      })
+        .then((editor: any) => {
+          if (destroyed) { editor.destroy(); return; }
+          editorRef.current = editor;
+
+          // Set initial data
+          editor.setData(value || "");
+
+          // Upload adapter for images
+          editor.plugins.get("FileRepository").createUploadAdapter = (loader: any) => ({
+            upload: () =>
+              loader.file.then((file: File) => {
+                const fd = new FormData();
+                fd.append("upload", file);
+                return fetch(API + "/news/articles/upload_image/", {
+                  method: "POST",
+                  headers: token ? { Authorization: "Bearer " + token } : {},
+                  body: fd,
+                })
+                  .then((r) => r.json())
+                  .then((d) => ({ default: d.url }));
+              }),
           });
-        });
-      },
-    };
-  }
 
-  function uploadPlugin(editor: any) {
-    editor.plugins.get("FileRepository").createUploadAdapter = (loader: any) => {
-      return uploadAdapter(loader);
+          // Listen for changes
+          editor.model.document.on("change:data", () => {
+            onChange(editor.getData());
+          });
+
+          setLoading(false);
+        })
+        .catch((err: any) => {
+          console.error("CKEditor init error:", err);
+          setLoading(false);
+        });
+    });
+
+    return () => {
+      destroyed = true;
+      if (editorRef.current) {
+        editorRef.current.destroy().catch(() => {});
+        editorRef.current = null;
+      }
     };
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Sync external value changes
+  useEffect(() => {
+    if (editorRef.current && !loading) {
+      const cur = editorRef.current.getData();
+      if (cur !== value) {
+        editorRef.current.setData(value || "");
+      }
+    }
+  }, [value, loading]);
 
   return (
-    <div style={{ minHeight: 400 }}>
-      <CKEditor
-        editor={ClassicEditor as any}
-        data={value || ""}
-        onChange={(_, editor) => onChange(editor.getData())}
-        onReady={(editor) => {
-          uploadPlugin(editor);
-          editorRef.current = editor;
-        }}
-        config={{
-          toolbar: [
-            "heading",
-            "|",
-            "bold",
-            "italic",
-            "link",
-            "bulletedList",
-            "numberedList",
-            "|",
-            "insertImage",
-            "blockQuote",
-            "mediaEmbed",
-            "|",
-            "undo",
-            "redo",
-          ],
-          image: {
-            upload: { types: ["png", "jpeg", "jpg", "gif", "webp"] },
-          },
-        }}
-      />
+    <div>
+      {loading && <div className="p-4 text-gray-400 animate-pulse">Đang tải trình soạn thảo...</div>}
+      <div ref={containerRef} style={{ minHeight: 300 }} />
     </div>
   );
 }
