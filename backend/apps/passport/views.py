@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status, parsers
+from rest_framework import viewsets, status, parsers, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -21,6 +21,11 @@ class ExpertProfileViewSet(viewsets.ModelViewSet):
     """Expert profile management."""
     serializer_class = ExpertProfileSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    # Search fields: name match (including partial/case-insensitive via SearchFilter's default OR behavior)
+    search_fields = ['full_name', 'organization', 'title', 'main_field', 'bio']
+    # Override pagination to use limit-offset (CursorPagination requires unique ordering field)
+    pagination_class = None  # use default limit/offset from global settings
 
     def get_queryset(self):
         from django.db.models import Count, Case, When, IntegerField, Q
