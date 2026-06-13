@@ -10,12 +10,16 @@ export default function Home() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [experts, setExperts] = useState<any[]>([]);
-  const [stats, setStats] = useState({ users: 223, assets: 0, listings: 0 });
+  const [stats, setStats] = useState({ users: 0, assets: 0, listings: 0, fields: 22 });
 
   useEffect(() => {
     fetch(`${API}/passport/experts/?limit=3`)
       .then((r) => r.ok ? r.json() : { results: [] })
       .then((data) => setExperts(data.results || data))
+      .catch(() => {});
+    fetch(`${API}/passport/experts/stats/`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((data) => { if (data) setStats(s => ({ ...s, users: data.total_experts, fields: data.fields_count || 22 })); })
       .catch(() => {});
     fetch(`${API}/marketplace/ip-assets/stats/`)
       .then((r) => r.ok ? r.json() : null)
@@ -43,7 +47,7 @@ export default function Home() {
             Khoa học & Công nghệ
           </h1>
           <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed">
-            Mạng lưới hơn {stats.users}+ chuyên gia, trí thức và nhà khoa học hàng đầu.
+            Mạng lưới hơn {stats.users > 0 ? stats.users.toLocaleString() : "6,800"}+ chuyên gia, trí thức và nhà khoa học hàng đầu.
             Tìm kiếm, trao đổi tri thức và giao dịch tài sản sở hữu trí tuệ một cách minh bạch.
           </p>
 
@@ -78,11 +82,11 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-gray-100">
             <div>
-              <div className="text-4xl font-bold text-sky-600 mb-1">223+</div>
+              <div className="text-4xl font-bold text-sky-600 mb-1">{stats.users.toLocaleString()}+</div>
               <div className="text-gray-500 font-medium">Chuyên gia</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-sky-600 mb-1">22</div>
+              <div className="text-4xl font-bold text-sky-600 mb-1">{stats.fields}</div>
               <div className="text-gray-500 font-medium">Lĩnh vực chuyên môn</div>
             </div>
             <div>

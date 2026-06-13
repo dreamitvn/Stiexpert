@@ -18,7 +18,15 @@ def health_check(request):
 
 def admin_stats(request):
     """Stats API for admin dashboard."""
+    from apps.passport.models import ExpertProfile
+
     today = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
+
+    # Count verified profiles
+    green_badges = ExpertProfile.objects.filter(professional_verified=True).count()
+    gold_badges = ExpertProfile.objects.filter(identity_verified=True).count()
+    total_profiles = ExpertProfile.objects.count()
+    is_public_profiles = ExpertProfile.objects.filter(is_public=True).count()
 
     stats = {
         "users": {
@@ -26,8 +34,15 @@ def admin_stats(request):
             "experts": User.objects.filter(role="expert").count(),
             "business": User.objects.filter(role="business").count(),
             "organizations": User.objects.filter(role="organization").count(),
-            "verified": User.objects.filter(is_verified=True).count(),
+            "green_badges": green_badges,
+            "gold_badges": gold_badges,
             "new_today": User.objects.filter(created_at__gte=today).count(),
+        },
+        "profiles": {
+            "total": total_profiles,
+            "public": is_public_profiles,
+            "green_badge": green_badges,
+            "gold_badge": gold_badges,
         },
         "content": {
             "publications": Publication.objects.count(),

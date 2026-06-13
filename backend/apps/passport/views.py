@@ -23,17 +23,38 @@ class ExpertProfileViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
+        from django.db.models import Count, Case, When, IntegerField
+
         user = getattr(self.request, 'user', None)
         is_staff_user = (
             user and user.is_authenticated
             and (getattr(user, 'role', '') in {'admin', 'manager', 'verification_staff'} or user.is_staff)
         )
+
+        # Annotate completeness score:
+        # +2 for green badge, +1 for gold badge, +count of related objects
+        base_qs = ExpertProfile.objects.annotate(
+            _completeness=Count('experiences') + Count('education') + Count('certificates')
+                            + Count('awards') + Count('papers') + Count('projects')
+                            + Count('science_activities') + Count('associations')
+                            + Count('patents') + Count('research_results'),
+        ).annotate(
+            _badge_score=Case(
+                When(professional_verified=True, then=2),
+                When(identity_verified=True, then=1),
+                default=0,
+                output_field=IntegerField(),
+            )
+        )
+
         if self.action == 'list' and not is_staff_user:
-            return ExpertProfile.objects.filter(is_public=True)
+            return base_qs.filter(is_public=True).order_by('-_badge_score', '-_completeness', '-created_at')
+        elif self.action == 'list':
+            return base_qs.order_by('-_badge_score', '-_completeness', '-created_at')
         return ExpertProfile.objects.all()
 
     def get_permissions(self):
-        if self.action in ['list', 'retrieve', 'public']:
+        if self.action in ['list', 'retrieve', 'public', 'stats']:
             return [AllowAny()]
         if self.action == 'me':
             return [IsAuthenticated()]
@@ -71,6 +92,22 @@ class ExpertProfileViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+
+    @action(detail=False, methods=['get'], permission_classes=[AllowAny], url_path='stats')
+    def stats(self, request):
+        """Public stats for homepage."""
+        total = ExpertProfile.objects.count()
+        with_avatar = ExpertProfile.objects.exclude(avatar__exact='').exclude(avatar__isnull=True).count()
+        green = ExpertProfile.objects.filter(professional_verified=True).count()
+        gold = ExpertProfile.objects.filter(identity_verified=True).count()
+        fields_count = 22  # chuyên gia 22 nhóm thông tin
+        return Response({
+            "total_experts": total,
+            "with_avatar": with_avatar,
+            "green_badge": green,
+            "gold_badge": gold,
+            "fields_count": fields_count,
+        })
 
     @action(detail=False, methods=['post'])
     def orcid_import(self, request):
