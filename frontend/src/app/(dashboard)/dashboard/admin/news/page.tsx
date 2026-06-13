@@ -42,19 +42,23 @@ export default function AdminNewsPage() {
   }, []);
 
   const loadArticles = () => {
-    fetch(`${API}/news/articles/`, { headers: { Authorization: `Bearer ${token}` } })
-      .then(r => r.ok ? r.json() : { results: [] })
+    fetch(`${API}/news/articles/`, { headers: token ? { Authorization: `Bearer ${token}` } : {} })
+      .then(async r => {
+        if (r.status === 401) { localStorage.removeItem("access"); localStorage.removeItem("refresh"); window.location.href = "/auth/login"; return { results: [] }; }
+        return r.ok ? r.json() : { results: [] };
+      })
       .then(d => setArticles(Array.isArray(d) ? d : d.results || []))
-      .catch(() => {});
+      .catch(() => setArticles([]));
   };
   const loadCategories = () => {
-    fetch(`${API}/news/categories/`, { headers: { Authorization: `Bearer ${token}` } })
+    // Public endpoint — no auth header
+    fetch(`${API}/news/categories/`)
       .then(r => r.ok ? r.json() : [])
       .then(d => setCategories(Array.isArray(d) ? d : d.results || []))
-      .catch(() => {});
+      .catch(() => setCategories([]));
   };
   const loadData = () => { setLoading(true); Promise.all([loadArticles(), loadCategories()]).finally(() => setLoading(false)); };
-  useEffect(() => { loadData(); }, []);
+  useEffect(() => { if (ready) loadData(); }, [ready]);
 
   const uploadImage = async (file: File): Promise<string | null> => {
     if (!token) return null;
