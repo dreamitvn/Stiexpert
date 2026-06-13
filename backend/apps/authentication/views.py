@@ -12,7 +12,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import PasswordResetToken
 from .serializers import RegisterSerializer, LoginSerializer, UserSerializer
-from .services.email_service import send_welcome_email, send_password_reset_email
+from .tasks import send_welcome_email_task, send_password_reset_email_task
 
 User = get_user_model()
 
@@ -140,7 +140,9 @@ class AuthViewSet(viewsets.GenericViewSet):
 
         # Build reset URL
         reset_url = f"{FRONTEND_URL}/auth/reset-password?token={token_str}"
-        send_password_reset_email(user, reset_url)
+
+        # Dispatch async email via Celery
+        send_password_reset_email_task.delay(str(user.id), reset_url)
 
         return Response(
             {"success": True, "message": "Nếu email tồn tại, bạn sẽ nhận được link đặt lại mật khẩu."},

@@ -98,6 +98,11 @@ class ExpertProfileViewSet(viewsets.ModelViewSet):
             "professional_verified_at", "professional_verified_by",
             "professional_verification_note",
         ])
+
+        # Send async verification success email via Celery
+        from apps.authentication.tasks import send_verification_success_email_task
+        send_verification_success_email_task.delay(str(profile.user.id), "professional")
+
         return Response({"status": "approved", "badge": "professional"})
 
     @action(detail=True, methods=['post'], permission_classes=[IsManagerOrAdmin])
@@ -130,6 +135,11 @@ class ExpertProfileViewSet(viewsets.ModelViewSet):
             "identity_verified_at", "identity_verified_by",
             "identity_verification_note",
         ])
+
+        # Send async verification success email via Celery
+        from apps.authentication.tasks import send_verification_success_email_task
+        send_verification_success_email_task.delay(str(profile.user.id), "identity")
+
         return Response({"status": "approved", "badge": "identity"})
 
     @action(detail=True, methods=['post'], permission_classes=[IsVerificationStaffOrAdmin])

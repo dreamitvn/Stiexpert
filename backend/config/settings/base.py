@@ -175,8 +175,12 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = "nonreply@stiexpert.com"
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "non@sti@2025")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "nuil krku qraz lyjb")
 DEFAULT_FROM_EMAIL = "STI Expert <nonreply@stiexpert.com>"
+
+# HTTPS / Proxy
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+USE_X_FORWARDED_HOST = True
 
 # Sentry
 SENTRY_DSN = os.getenv("SENTRY_DSN", "")

@@ -17,3 +17,4 @@ Pillow
 PyMuPDF
 sentry-sdk
 whitenoise==6.6.0
+django-templated-mail

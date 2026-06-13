@@ -3,58 +3,143 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Đăng ký thành công</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Chào mừng đến với STI Expert</title>
+<!--[if mso]><style type="text/css">body, table, td {font-family: Arial, Helvetica, sans-serif !important;}</style><![endif]-->
 </head>
-<body style="margin:0;padding:0;background:#f4f4f4;font-family:Arial,Helvetica,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f4;padding:30px 0;">
+<body style="margin:0;padding:0;background-color:#f4f6f8;font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;">
+<!-- Preview text -->
+<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;">
+  Chào mừng bạn đến với STI Expert — Nền tảng Sở hữu Trí tuệ hàng đầu Việt Nam.
+</div>
+
+<!-- Container -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+       style="background-color:#f4f6f8;width:100%;padding:40px 16px;box-sizing:border-box;">
   <tr>
     <td align="center">
-      <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-        <!-- Header -->
+
+      <!-- Email Card -->
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0"
+             style="max-width:600px;width:100%;background-color:#ffffff;
+                    border-radius:12px;overflow:hidden;
+                    box-shadow:0 1px 3px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.05);">
+
+        <!-- Header Banner — gradient purple → blue -->
         <tr>
-          <td style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:32px 40px;text-align:center;">
-            <h1 style="color:#ffffff;margin:0;font-size:28px;font-weight:bold;">🎓 STI Expert</h1>
-            <p style="color:#e0e0e0;margin:8px 0 0;font-size:14px;">Sàn giao dịch Sở hữu Trí tuệ</p>
+          <td style="background:linear-gradient(135deg,#667eea 0%,#5a67d8 50%,#3182ce 100%);
+                     padding:40px 40px 32px;text-align:center;">
+            <!-- Logo -->
+            <div style="display:inline-block;margin-bottom:16px;">
+              <img src="https://v2.stiexpert.com/logo.svg" alt="STI Expert"
+                   width="48" height="48"
+                   style="display:block;margin:0 auto 8px;">
+              <span style="font-size:22px;font-weight:700;color:#ffffff;letter-spacing:-0.5px;
+                           display:block;">STI Expert</span>
+            </div>
+            <h1 style="margin:0;font-size:26px;font-weight:700;color:#ffffff;line-height:1.3;
+                        text-shadow:0 1px 3px rgba(0,0,0,0.2);">
+              🎉 Chào mừng bạn!
+            </h1>
+            <p style="margin:10px 0 0;font-size:15px;color:rgba(255,255,255,0.85);
+                        text-shadow:0 1px 2px rgba(0,0,0,0.15);">
+              Đăng ký thành công · Tài khoản đã kích hoạt
+            </p>
           </td>
         </tr>
+
         <!-- Body -->
         <tr>
-          <td style="padding:40px;">
-            <h2 style="color:#333333;margin:0 0 20px;font-size:22px;">Chào mừng bạn đến với STI Expert! 🎉</h2>
-            <p style="color:#555555;margin:0 0 16px;font-size:16px;line-height:1.6;">
-              Cảm ơn bạn đã đăng ký tài khoản thành công tại <strong>STI Expert</strong>.
+          <td style="padding:40px 40px 32px;">
+
+            <!-- Greeting -->
+            <p style="margin:0 0 8px;font-size:16px;font-weight:600;color:#1a202c;">
+              Xin chào{{ full_name|default:"" }},</p>
+            <p style="margin:0 0 24px;font-size:15px;color:#4a5568;line-height:1.6;">
+              Cảm ơn bạn đã tham gia <strong style="color:#5a67d8;">STI Expert</strong> —
+              Nền tảng Sở hữu Trí tuệ đầu tiên tại Việt Nam ứng dụng Blockchain & AI.
+              Tài khoản của bạn đã sẵn sàng để khám phá.
             </p>
-            <p style="color:#555555;margin:0 0 16px;font-size:16px;line-height:1.6;">
-              Tài khoản của bạn đã được kích hoạt. Bây giờ bạn có thể:
-            </p>
-            <ul style="color:#555555;font-size:16px;line-height:1.8;margin:0 0 24px;padding-left:20px;">
-              <li>Đăng ký hồ sơ chuyên gia và nhận badge xác minh</li>
-              <li>Duyệt và kết nối với các chuyên gia hàng đầu</li>
-              <li>Mua bán, kết nối và phát triển sự nghiệp Sở hữu Trí tuệ</li>
-            </ul>
-            <p style="color:#555555;margin:0 0 24px;font-size:14px;line-height:1.6;">
-              Nếu bạn cần hỗ trợ, vui lòng liên hệ với chúng tôi qua email <a href="mailto:support@stiexpert.com" style="color:#667eea;">support@stiexpert.com</a>
-            </p>
-            <!-- CTA Button -->
-            <table cellpadding="0" cellspacing="0" style="margin:24px 0;">
+
+            <!-- STI ID Badge -->
+            {% if sti_id %}
+            <table role="presentation" cellpadding="0" cellspacing="0"
+                   style="background:#f7f8fc;border:1px solid #e2e8f0;
+                          border-radius:8px;padding:16px 20px;margin:0 0 24px;width:100%;">
               <tr>
-                <td style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border-radius:6px;">
-                  <a href="{{ frontend_url }}" style="display:inline-block;color:#ffffff;text-decoration:none;font-size:16px;font-weight:bold;padding:14px 32px;">Khám phá STI Expert →</a>
+                <td style="padding:12px 0;">
+                  <p style="margin:0 0 4px;font-size:12px;color:#718096;text-transform:uppercase;
+                              letter-spacing:0.5px;font-weight:600;">Mã Chuyên gia (STI ID)</p>
+                  <p style="margin:0;font-size:20px;font-weight:700;color:#5a67d8;
+                              letter-spacing:1px;font-family:monospace;">{{ sti_id }}</p>
                 </td>
               </tr>
             </table>
+            {% endif %}
+
+            <!-- Feature list -->
+            <p style="margin:0 0 16px;font-size:14px;font-weight:700;color:#1a202c;
+                        text-transform:uppercase;letter-spacing:0.5px;">Bạn có thể làm gì?</p>
+            <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;margin:0 0 28px;">
+              {% for item in features %}
+              <tr>
+                <td style="padding:8px 0;border-bottom:1px solid #f0f0f0;">
+                  <table role="presentation" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td style="width:32px;vertical-align:top;padding-top:2px;">
+                        <div style="width:24px;height:24px;background:#edf2f7;border-radius:50%;
+                                    display:inline-block;text-align:center;line-height:24px;font-size:12px;
+                                    color:#5a67d8;font-weight:700;">{{ forloop.counter }}</div>
+                      </td>
+                      <td>
+                        <p style="margin:0;font-size:14px;color:#2d3748;font-weight:600;">{{ item.title }}</p>
+                        <p style="margin:2px 0 0;font-size:13px;color:#718096;">{{ item.desc }}</p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              {% endfor %}
+            </table>
+
+            <!-- CTA Button -->
+            <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;margin:0 0 32px;">
+              <tr>
+                <td align="center">
+                  <a href="{{ frontend_url }}"
+                     style="display:inline-block;background:linear-gradient(135deg,#667eea 0%,#5a67d8);
+                            color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;
+                            padding:14px 36px;border-radius:8px;
+                            box-shadow:0 2px 8px rgba(102,126,234,0.4);">
+                    Khám phá STI Expert →
+                  </a>
+                </td>
+              </tr>
+            </table>
+
+            <!-- Support -->
+            <p style="margin:0;font-size:13px;color:#718096;line-height:1.6;
+                        border-top:1px solid #edf2f7;padding-top:20px;">
+              Cần hỗ trợ? Liên hệ <a href="mailto:support@stiexpert.com"
+              style="color:#5a67d8;">support@stiexpert.com</a> ·
+              <a href="{{ frontend_url }}/docs"
+                 style="color:#5a67d8;">Hướng dẫn sử dụng</a>
+            </p>
           </td>
         </tr>
+
         <!-- Footer -->
         <tr>
-          <td style="background:#f8f8f8;padding:20px 40px;border-top:1px solid #eeeeee;">
-            <p style="color:#999999;margin:0;font-size:12px;text-align:center;">
-              © 2026 STI Expert. Mọi quyền được bảo lưu.<br>
+          <td style="background:#f7f8fc;border-top:1px solid #edf2f0;padding:20px 40px;text-align:center;">
+            <p style="margin:0;font-size:11px;color:#a0aec0;line-height:1.6;">
+              © 2026 STI Expert · Mọi quyền được bảo lưu<br>
               Email này được gửi tự động, vui lòng không reply.
             </p>
           </td>
         </tr>
       </table>
+      <!-- /Email Card -->
+
     </td>
   </tr>
 </table>
