@@ -12,6 +12,11 @@ from .serializers import (
 )
 
 
+from rest_framework.parsers import MultiPartParser, FormParser
+from django.core.files.storage import default_storage
+import os
+import uuid
+
 class IsAdminOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
         if request.method in permissions.SAFE_METHODS:
@@ -67,9 +72,29 @@ class ArticleViewSet(viewsets.ModelViewSet):
         qs = Article.objects.filter(status="published", featured=True)[:5]
         return Response(ArticleListSerializer(qs, many=True).data)
 
+    @action(detail=False, methods=["post"], parser_classes=[MultiPartParser, FormParser], permission_classes=[permissions.IsAdminUser])
+    def upload_image(self, request):
+        file = request.FILES.get("upload") or request.FILES.get("file")
+        if not file:
+            return Response({"error": {"message": "No file uploaded"}}, status=400)
+        
+        ext = os.path.splitext(file.name)[1]
+        filename = f"news_images/{uuid.uuid4()}{ext}"
+        saved_path = default_storage.save(filename, file)
+        url = default_storage.url(saved_path)
+        
+        # Format CKEditor 5 expects
+        return Response({
+            "url": url
+        })
 
-class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
+
+class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
-    permission_classes = [permissions.AllowAny]
     queryset = Category.objects.all().order_by("order", "name")
+
+    def get_permissions(self):
+        if self.action in ["list", "retrieve"]:
+            return [permissions.AllowAny()]
+        return [permissions.IsAdminUser()]
     pagination_class = None  # Danh mục ít, không cần phân trang
