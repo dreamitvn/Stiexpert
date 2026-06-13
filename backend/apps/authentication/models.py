@@ -52,3 +52,31 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f"Profile of {self.user.email}"
+
+
+class PasswordResetToken(models.Model):
+    """One-time token for password reset. Expires after 30 minutes."""
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reset_tokens")
+    token = models.CharField(max_length=64, unique=True, db_index=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    used = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = "password_reset_tokens"
+        ordering = ["-created_at"]
+
+    @property
+    def is_expired(self):
+        from django.utils import timezone
+        from datetime import timedelta
+
+        return timezone.now() > self.created_at + timedelta(minutes=30)
+
+    @property
+    def is_valid(self):
+        return not self.used and not self.is_expired
+
+    def __str__(self):
+        return f"ResetToken({self.user.email}, used={self.used})"

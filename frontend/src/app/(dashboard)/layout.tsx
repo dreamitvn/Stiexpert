@@ -47,7 +47,14 @@ const menuItems: MenuItem[] = [
       { label: "Tin nhắn", href: "/dashboard/messages" },
     ],
   },
-  { label: "Cài đặt", href: "/dashboard/settings", icon: "⚙️" },
+  {
+    label: "Cài đặt",
+    icon: "⚙️",
+    subItems: [
+      { label: "Thiết lập chung", href: "/dashboard/settings" },
+      { label: "Đổi mật khẩu", href: "/dashboard/settings/change-password" },
+    ],
+  },
   {
     label: "Quản trị hệ thống",
     icon: "🔧",
