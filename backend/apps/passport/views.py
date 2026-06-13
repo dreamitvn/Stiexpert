@@ -23,7 +23,7 @@ class ExpertProfileViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        from django.db.models import Count, Case, When, IntegerField
+        from django.db.models import Count, Case, When, IntegerField, Q
 
         user = getattr(self.request, 'user', None)
         is_staff_user = (
@@ -31,26 +31,44 @@ class ExpertProfileViewSet(viewsets.ModelViewSet):
             and (getattr(user, 'role', '') in {'admin', 'manager', 'verification_staff'} or user.is_staff)
         )
 
-        # Annotate completeness score:
-        # +2 for green badge, +1 for gold badge, +count of related objects
+        # Annotate completeness score using distinct=True to prevent Cartesian product multiplication
         base_qs = ExpertProfile.objects.annotate(
-            _completeness=Count('experiences') + Count('education') + Count('certificates')
-                            + Count('awards') + Count('papers') + Count('projects')
-                            + Count('science_activities') + Count('associations')
-                            + Count('patents') + Count('research_results'),
+            _completeness=Count('experiences', distinct=True) 
+                            + Count('education', distinct=True) 
+                            + Count('certificates', distinct=True)
+                            + Count('awards', distinct=True) 
+                            + Count('papers', distinct=True) 
+                            + Count('projects', distinct=True)
+                            + Count('science_activities', distinct=True) 
+                            + Count('associations', distinct=True)
+                            + Count('patents', distinct=True) 
+                            + Count('research_results', distinct=True),
         ).annotate(
             _badge_score=Case(
+                When(professional_verified=True, identity_verified=True, then=3),
                 When(professional_verified=True, then=2),
                 When(identity_verified=True, then=1),
+                default=0,
+                output_field=IntegerField(),
+            ),
+            _has_avatar=Case(
+                When(Q(avatar__isnull=False) & ~Q(avatar=''), then=1),
                 default=0,
                 output_field=IntegerField(),
             )
         )
 
+        # Order of priority: 
+        # 1. Badge status (Green + Gold -> Green -> Gold -> None)
+        # 2. Has avatar (Profiles with avatar first)
+        # 3. Completeness score (more associated information sections first)
+        # 4. Fallback to registration/creation date
+        ordering = ['-_badge_score', '-_has_avatar', '-_completeness', '-created_at']
+
         if self.action == 'list' and not is_staff_user:
-            return base_qs.filter(is_public=True).order_by('-_badge_score', '-_completeness', '-created_at')
+            return base_qs.filter(is_public=True).order_by(*ordering)
         elif self.action == 'list':
-            return base_qs.order_by('-_badge_score', '-_completeness', '-created_at')
+            return base_qs.order_by(*ordering)
         return ExpertProfile.objects.all()
 
     def get_permissions(self):
